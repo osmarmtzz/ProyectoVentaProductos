@@ -12,7 +12,7 @@ session_start();
     <?php include 'nav.php'; ?>
 </head>
 <body>
-
+    <h1>Hola</h1>
     <?php
     include 'footer.php';
     ?>
