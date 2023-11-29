@@ -1,0 +1,24 @@
+
+.bienvenida{
+    background-color: #282828;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: whitesmoke;
+}
+.pt1 {
+    display: flex;
+    justify-content: space-around; 
+    align-items: center; 
+}
+
+.texto {
+    flex: 1;
+    padding: 20px;
+}
+
+.carrusel {
+    flex: 1; 
+    padding: 20px; 
+}
