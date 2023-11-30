@@ -1,5 +1,8 @@
 <?php
 session_start();
+include 'ruta/a/tu/font.ttf';
+
+generarCaptcha();
 
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
@@ -122,6 +125,33 @@ function obtenerInformacionUsuario($email) {
 
     return $userInfo;
 }
+
+function generarCaptcha() {
+    $cadenaCaptcha = substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"), 0, 5);
+    $_SESSION['captcha'] = $cadenaCaptcha;
+
+    $imagen = imagecreatetruecolor(150, 50);
+    $colorFondo = imagecolorallocate($imagen, 255, 255, 255);
+    $colorTexto = imagecolorallocate($imagen, 0, 0, 0);
+
+    imagefilledrectangle($imagen, 0, 0, 150, 50, $colorFondo);
+
+    // Dibujar texto distorsionado
+    imagettftext($imagen, 20, 0, 10, 40, $colorTexto, 'path/to/font.ttf', $cadenaCaptcha);
+
+    // Aplicar distorsión a la imagen
+    imagefilter($imagen, IMG_FILTER_NEGATE);
+
+    // Mostrar la imagen
+    header("Content-type: image/png");
+    imagepng($imagen);
+    imagedestroy($imagen);
+}
+
+// Verificar el CAPTCHA ingresado por el usuario
+function verificarCaptcha($captchaIngresado) {
+    return isset($_SESSION['captcha']) && strtolower($captchaIngresado) === strtolower($_SESSION['captcha']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -161,6 +191,10 @@ function obtenerInformacionUsuario($email) {
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
                     <p id="error-message" style="color: red;"></p>
                     <button type="submit" name="registro">Registrar</button>
+                    <label for="captcha">Ingresa el CAPTCHA:</label>
+                    <input type="text" name="captcha" id="captcha" placeholder="Ingresa el CAPTCHA" required />
+
+                    <img src="captcha.php" alt="Captcha" />
                 </form>
             </div>
             <div class="form-container sign-in-container">
