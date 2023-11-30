@@ -13,7 +13,6 @@ session_start();
 </head>
 <body>
     <p>Hola</p>
-    <h1>Adios</h1>
     <?php
     include 'footer.php';
     ?>
