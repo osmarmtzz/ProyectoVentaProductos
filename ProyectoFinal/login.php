@@ -70,14 +70,13 @@ function generarCaptcha() {
 function verificarCaptcha($captchaIngresado) {
     if (isset($_SESSION['captcha'])) {
         $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
-        $nombreCaptcha = strtolower($nombreCaptcha); // Convertir a minúsculas para la comparación
-        $captchaIngresado = strtolower($captchaIngresado); // Convertir a minúsculas para la comparación
+        $nombreCaptcha = strtolower($nombreCaptcha); 
+        $captchaIngresado = strtolower($captchaIngresado); 
         error_log("Session captcha: " . $_SESSION['captcha']);
 
         if (strtolower($captchaIngresado) === $nombreCaptcha) {
-            // El captcha es correcto, limpiar la sesión
             unset($_SESSION['captcha']);
-            session_regenerate_id(); // Regenerar el ID de sesión
+            session_regenerate_id(); 
             error_log("Session captcha: " . $_SESSION['captcha']);
             return true;
         }
@@ -101,27 +100,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
         registrarCuenta($nombre, $email_registro, $preguntaSeguridad, $password_registro, $cuenta);
     }
 }
-// ... (Tu código anterior)
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
     $captchaIngresado = $_POST["captcha"];
 
-    // Verificar el captcha primero
+   
     if (verificarCaptcha($captchaIngresado)) {
-        // Si el captcha es correcto, verificar credenciales
+       
         if (verificarCredenciales($email, $password)) {
-            // Limpiar la sesión del captcha antes de redirigir
+            
             unset($_SESSION['captcha']);
             
-            // Restablecer intentos si es exitoso
+           
             $_SESSION["intentos"] = 0;
             
             header("Location: index.php");
             exit();
         } else {
-            // Incrementar intentos solo si las credenciales son incorrectas
+            
             $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
             $_SESSION["intentos"] = $intentos;
 
@@ -129,12 +127,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
                 header("Location: bloqueado.php?email=" . urlencode($email));
                 exit();
             } else {
-                // Mostrar mensaje de credenciales incorrectas
+              
                 echo "Credenciales incorrectas. Intentos restantes: " . (3 - $intentos);
             }
         }
     } else {
-        // Mostrar mensaje de error en el captcha
+       
         echo "Error en el captcha. Por favor, inténtalo de nuevo.";
     }
 }
