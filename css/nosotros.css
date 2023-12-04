@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #282828;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #282828 0%, #dddecd 40%, #282828 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+@media screen and (max-width: 768px) {
+    .titulo-vacantes-info,
+    .info-vacantes-info {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    #titulo-equipo {
+        margin-left: 20px;
+    }
+}
+/* Nosotros equipo */
+.container1, .container2, .container3,.container4, .container5{
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+    transition: opacity 0.3s, background-color 0.3s;
+    background-color: rgba(255, 255, 255, 0); 
+    margin-bottom: 100px;
+    border: 6px solid black;
+    box-shadow: 70px 50px 20px 10px rgba(0, 0, 0, 0.5);
+    filter: grayscale(30%);
+    transition: filter 1.5s;
+}
+
+.container1:hover, .container2:hover, .container3:hover,.container4:hover, .container5:hover {
+    opacity: 1; 
+    background-color: rgba(255, 255, 255, 1);
+
+}
+#nombres:hover, #info:hover{
+    color: #000;
+    font-weight: bold;
+
+}
+#nombres{
+    font-family:'Poppins', sans-serif;
+    color: #00bcd4;
+    font-weight: bold;
+    margin-top: 10px;
+    
+
+}
+#info{
+    font-family:'Poppins', sans-serif;
+    color: #fff;
+    font-weight: bold;
+    text-align: justify;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+#imagen-nosotros{
+    border-radius: 50%;
+}
