@@ -18,13 +18,12 @@ else{
      /*revisar si traemos datos a insertar en la bd  dependiendo
      de que el boton de enviar del formulario se le dio clic*/
 
-     if(isset($_POST['submit'])&& !empty($_POST['id'])){
+     if(isset($_POST['submit'])&& !empty($_POST['idp'])){
             //obtenemos datos del formulario
             $idp = $_POST['idp'];
             $nomp =$_POST['nomp'];
             $descripcion =$_POST['descripcion'];
             $existencia =$_POST['existencia'];
-            $conexion =$_POST['conexion'];
             $precio =$_POST['precio'];
             $imagen =$_POST['imagen'];
             $categoria =$_POST['categoria'];
