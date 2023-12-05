@@ -76,6 +76,10 @@ session_start();
     <?php
     include 'footer.php';
     ?>
+    <div class="loader-wrapper">
+    <div class="loader"></div>
+    <p>Cargando...</p>
+  </div>
 
 </body>
 </html>
