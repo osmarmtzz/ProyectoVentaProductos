@@ -105,8 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
                 echo "Credenciales incorrectas. Intentos restantes: " . (3 - $intentos);
             }
         }
-    } else {  
-        echo "Error en el captcha. Por favor, inténtalo de nuevo.";
     }
 }
 
