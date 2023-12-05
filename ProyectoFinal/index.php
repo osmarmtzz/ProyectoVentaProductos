@@ -19,7 +19,6 @@ session_start();
 <?php include 'nav.php'; ?>
 <div class="pt1">
     <div class="texto">
-<p>Hola como caca </p>
     </div>
     
 </div>
