@@ -22,3 +22,56 @@
     flex: 1; 
     padding: 20px; 
 }
+#miCarrusel .carousel-item img {
+    max-height: 600px; /* Ajusta la altura según tus necesidades */
+    width: 100%; /* Hace que la imagen ocupe el 100% del ancho del contenedor */
+    /*object-fit: cover; /* Evita que las imágenes se deformen */
+}
+
+body{
+    background-color: rgb(90, 79, 79); /* Puedes ajustar el color según tus preferencias */
+}
+
+
+.productos {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around; /* Ajusta la distribución según tus preferencias */
+    flex-wrap: wrap; /* Permite que los productos se envuelvan a la siguiente línea si no caben en el ancho de la pantalla */
+}
+
+.producto {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 5px; /* Ajusta los márgenes derecho e izquierdo según tus preferencias */
+    text-align: center;
+    width: 400px;
+    background-image:"img/Logo.png";
+
+}
+
+.producto img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+h2{
+    font-size: 34pt;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #ffa500;
+    
+}
+h3{
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    font-size: 28pt;
+    color:#ffffff;
+}
+
+
+p{
+    font-size: 24pt;
+    font-family: sans-serif;
+    color: white;
+    text-align: justify;
+}
