@@ -10,7 +10,7 @@
         <nav>
             <a href="index.php" class="link-nav"><img src="img/Logo.png" alt="Descripción de la imagen"></a>
             <a href="index.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">INICIO</a>
-            <a href="nosotros.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'nosotros.php' ? 'active' : ''; ?>">NOSOTROS</a>
+            <a href="nosotros.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'nosotros.php' ? 'active' : ''; ?>">ACERCA DE</a>
             <a href="productos.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'productos.php' ? 'active' : ''; ?>">PRODUCTOS</a>
             <a href="contacto.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'contacto.php' ? 'active' : ''; ?>">CONTACTO</a>
             <a href="carrito.php" class="link-nav">CARRITO</a>
