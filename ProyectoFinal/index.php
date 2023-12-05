@@ -13,18 +13,34 @@ session_start();
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-</head>
-<body>
-<div class="bienvenida"> Bienvenido/a a DEPORTUAA</div>
-<?php include 'nav.php'; ?>
-<div class="pt1">
-    <div class="texto">
-    </div>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .producto {
+            text-align: center; /* Centra el contenido horizontalmente */
+            padding: 20px; /* Añade espacio alrededor del contenido */
+        }
+
+        .ver {
+            display: inline-block;
+            padding: 15px 30px; /* Aumenta el espaciado interno */
+            margin-top: 100%; /* Mueve el botón hacia abajo */
+            background-color: orange;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px; /* Ajusta las esquinas redondeadas */
+            font-size: 18px; /* Aumenta el tamaño del texto */
+            border-color: black;
+        }
+    </style>
+
     
 </head>
 
 <body>
+    <div class="bienvenida">Bienvenido/a a DEPORTUAA</div>
+    <?php include 'nav.php'; ?>
   
+
     <div class="pt1">
         <div class="texto">
             <h2>¿Qué es DEPORTUAA?</h2>
