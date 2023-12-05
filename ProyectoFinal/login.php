@@ -1,6 +1,4 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 session_start();
 
 generarCaptcha();
@@ -61,29 +59,6 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
     $conn->close();
 }
 
-function generarCaptcha() {
-    $opcionesCaptcha = ["PNRHtR.png", "smwm.jpg", "ReCAptchA.jpeg", "qGphJD.jpg"];
-    $imagenCaptcha = $opcionesCaptcha[array_rand($opcionesCaptcha)];
-    $_SESSION['captcha'] = $imagenCaptcha;
-}
-
-function verificarCaptcha($captchaIngresado) {
-    if (isset($_SESSION['captcha'])) {
-        $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
-        $nombreCaptcha = strtolower($nombreCaptcha); 
-        $captchaIngresado = strtolower($captchaIngresado); 
-        error_log("Session captcha: " . $_SESSION['captcha']);
-
-        if (strtolower($captchaIngresado) === $nombreCaptcha) {
-            unset($_SESSION['captcha']);
-            session_regenerate_id(); 
-            error_log("Session captcha: " . $_SESSION['captcha']);
-            return true;
-        }
-    }
-    return false;
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
     $nombre = $_POST["nombre"];
     $email_registro = $_POST["email"];
@@ -108,12 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
 
    
     if (verificarCaptcha($captchaIngresado)) {
+        error_log("Mensaje de registro: Este es un mensaje informativo.");
+
        
         if (verificarCredenciales($email, $password)) {
             
-            unset($_SESSION['captcha']);
-            
-           
             $_SESSION["intentos"] = 0;
             
             header("Location: index.php");
@@ -131,8 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
                 echo "Credenciales incorrectas. Intentos restantes: " . (3 - $intentos);
             }
         }
-    } else {
-       
+    } else {  
         echo "Error en el captcha. Por favor, inténtalo de nuevo.";
     }
 }
@@ -166,6 +139,23 @@ function obtenerInformacionUsuario($email) {
     $conn->close();
 
     return $userInfo;
+}
+
+function generarCaptcha() {
+    $opcionesCaptcha = ["PNRHtR.png", "smwm.jpg", "ReCAptchA.jpeg", "qGphJD.jpg"];
+    $imagenCaptcha = $opcionesCaptcha[array_rand($opcionesCaptcha)];
+    $_SESSION['captcha'] = $imagenCaptcha;
+}
+
+function verificarCaptcha($captchaIngresado) {
+    if (isset($_SESSION['captcha'])) {
+        $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
+        if ($captchaIngresado === $nombreCaptcha) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ?>
