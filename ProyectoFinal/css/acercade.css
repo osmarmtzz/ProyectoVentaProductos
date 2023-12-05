@@ -1,0 +1,155 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(15, 9, 99);
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #32043a 0%, #412dd1 40%, #0a033e57 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.bienvenida{
+    background-color: #282828;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: whitesmoke;
+}
+/* Misión info */
+.container-mision-info {
+    background-color: #0c0c31;
+    padding: 10px;
+}
+
+.titulo-mision-info {
+    margin-left: 100px;
+}
+
+.info-mision-info {
+    margin-left: 100px;
+    margin-right: 400px;
+    text-align: justify;
+}
+
+#info-mision-info {
+    margin: 30px;
+    color: #1e90ff;
+    font-family: 'Outfit', sans-serif;
+}
+
+#titulo-mision-info {
+    color: #00ced1;
+    margin: 30px;
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Visión info */
+.container-vision-info {
+    background-color: #0c0c31;
+    padding: 10px;
+}
+
+.titulo-vision-info {
+    margin-left: 100px;
+}
+
+.info-vision-info {
+    margin-left: 100px;
+    margin-right: 400px;
+    text-align: justify;
+}
+
+#info-vision-info {
+    margin: 30px;
+    color: #1e90ff;
+    font-family: 'Outfit', sans-serif;
+}
+
+#titulo-vision-info {
+    color: #00ced1;
+    margin: 30px;
+    font-family: 'Outfit', sans-serif;
+}
+#titulo-equipo {
+    text-align: center;
+    color: #00d5ff; 
+    font-size: 24px; 
+    margin-bottom: 20px;
+}
+
+/* Objetivo info */
+.container-objetivo-info {
+    background-color: #0c0c31;
+    padding: 10px;
+}
+
+.titulo-objetivo-info {
+    margin-left: 100px;
+}
+
+.info-objetivo-info {
+    margin-left: 100px;
+    margin-right: 400px;
+    text-align: justify;
+}
+
+#info-objetivo-info {
+    margin: 30px;
+    color: #1e90ff;
+    font-family: 'Outfit', sans-serif;
+}
+
+#titulo-objetivo-info {
+    color: #00ced1;
+    margin: 30px;
+    font-family: 'Outfit', sans-serif;
+}
+
+
+/* Nosotros equipo */
+.container1, .container2, .container3,.container4, .container5{
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 400px;
+    text-align: center;
+    transition: opacity 0.3s, background-color 0.3s;
+    background-color: rgba(255, 255, 255, 0); 
+    margin-bottom: 100px;
+    border: 6px solid black;
+    box-shadow: 70px 50px 20px 10px rgba(0, 0, 0, 0.5);
+    filter: grayscale(30%);
+    transition: filter 1.5s;
+}
+
+.container1:hover, .container2:hover, .container3:hover,.container4:hover, .container5:hover {
+    opacity: 1; 
+    background-color: rgba(255, 255, 255, 1);
+
+}
+#nombres:hover, #info:hover{
+    color: #000;
+    font-weight: bold;
+
+}
+#nombres{
+    font-family:'Poppins', sans-serif;
+    color: #00bcd4;
+    font-weight: bold;
+    margin-top: 10px;
+    
+
+}
+#info{
+    font-family:'Poppins', sans-serif;
+    color: #ece3e3;
+    font-weight: bold;
+    text-align: justify;
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+#imagen-nosotros{
+    border-radius: 50%;
+}

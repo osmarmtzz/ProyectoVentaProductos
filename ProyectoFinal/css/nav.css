@@ -56,11 +56,16 @@ nav a.active::after {
 nav a img {
     max-height: 80px; 
 }
+.linea-blanca {
+    height: 2px; /* Altura de la línea */
+    background-color: #fff; /* Color de fondo blanco */
+    margin: 20px 0; /* Márgenes superior e inferior */
+}
+
 
 .link-nav {
     font-size: 20px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
+    font-family: 'Arimo', sans-serif;}
 
 @media (max-width: 768px) {
     nav {

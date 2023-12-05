@@ -27,20 +27,24 @@
 }
 .contact .content 
 {
-	max-width: 800px;
+	max-width: 850px;
 	text-align: center;
 }
 .contact .content h2 
 {
 	font-size: 3em;
-	color: #481eff;
+	color: red;
 	font-weight: 500;
+	font-family: 'Chakra Petch', sans-serif;
+		letter-spacing: 5px;
+
 }
 .contact .content p 
 {
 	color:#ffa500;
 	font-size: 1.1em;
 	font-weight: 300;
+	
 }
 .container 
 {

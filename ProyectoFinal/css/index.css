@@ -23,6 +23,7 @@
     padding: 20px; 
 }
 
+
 #miCarrusel .carousel-item img {
     max-height: 600px; /* Ajusta la altura según tus necesidades */
     width: 100%; /* Hace que la imagen ocupe el 100% del ancho del contenedor */
