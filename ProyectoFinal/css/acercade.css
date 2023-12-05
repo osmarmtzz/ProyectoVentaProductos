@@ -9,6 +9,14 @@ body {
 
 }
 
+.bienvenida{
+    background-color: #282828;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: whitesmoke;
+}
 /* Misión info */
 .container-mision-info {
     background-color: #0c0c31;

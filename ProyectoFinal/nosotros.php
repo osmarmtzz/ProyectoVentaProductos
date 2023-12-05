@@ -9,9 +9,12 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nosotros</title>
     <link rel="stylesheet" href="css/acercade.css">
+
+    <div class="bienvenida"> Bienvenido/a a DEPORTUAA</div>
     <?php include 'nav.php'; ?>
 </head>
 <body>
+
 
      <div class="titulo-mision-info">
     <h2 id="titulo-mision-info">Nuestra Misión</h2>

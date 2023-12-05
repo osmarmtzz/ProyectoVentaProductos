@@ -1,6 +1,6 @@
 <?php
 function obtenerUltimaModificacion() {
-    $archivos = ['index.php','nosotros.php', 'contacto.php', 'login.php', 'bloqueado.php']; // Lista de archivos relevantes
+    $archivos = ['index.php','nosotros.php', 'productos.php','contacto.php','ayuda.php', 'login.php', 'bloqueado.php']; // Lista de archivos relevantes
 
     $ultima_modificacion = 0;
 

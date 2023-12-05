@@ -1,43 +1,72 @@
+
+.bienvenida{
+    background-color: #282828;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: whitesmoke;
+}
 body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #282828;
-    font-family:'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #282828 0%, #dddecd 40%, #282828 100%);
-    background-repeat: no-repeat;
-    background-size: cover;
-
+    background-color: #333;
 }
 
 h1 {
-    color: orange; /* Cambia el color del texto a naranja */
+    text-align: center;
+    color: red;
+    margin: 30px 0;
+    font-family: 'Chakra Petch', sans-serif;
+		letter-spacing: 5px;
+    font-weight: bolder;
 }
 
-/* Estilos para las preguntas y respuestas */
 .faq {
-    border: 1px solid #ddd; /* Añade un borde alrededor de cada pregunta */
-    padding: 10px;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease; /* Agrega una transición al color de fondo */
+    margin: 20px auto; 
+    max-width: 800px; 
+    background-color: #fff;
+    color: #555;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .faq:hover {
-    background-color: #e6f7ff; /* Cambia el color de fondo al pasar el mouse a azul claro */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    transform: scale(1.02);
 }
 
-/* Estilo para las preguntas */
 .question {
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-/* Estilo para las respuestas */
+.question:hover {
+    color: #FFD700;
+}
+
 .answer {
     display: none;
-    margin-left: 20px;
+    margin-top: 10px;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* Estilo para la lista ordenada dentro de la respuesta de la pregunta 5 */
-.answer ol {
-    margin-top: 0; /* Elimina el espacio superior de la lista ordenada */
+.faq.open .answer {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
