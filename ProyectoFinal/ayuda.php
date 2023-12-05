@@ -1,8 +1,14 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Preguntas Frecuentes</title>
+    <link rel="stylesheet" href="css/ayuda.css">
+
     <style>
         /* Estilos CSS para dar formato a las preguntas y respuestas */
         .faq {
@@ -19,6 +25,8 @@
     </style>
 </head>
 <body>
+<?php include 'nav.php'; ?>
+
     <h1>Preguntas Frecuentes</h1>
 
     <div class="faq">
@@ -55,6 +63,8 @@
                 <li>Pulsa el botón "Buscar" o presiona la tecla "Enter".</li>
                 <li>Los resultados de la búsqueda se mostrarán en una lista. Puedes hacer clic en un resultado para ver más detalles sobre el artículo.</li>
             </ol>
+    </div>
+    
 
     <div class="faq">
         <div class="question">6. ¿HACEN ENVIOS INTERNACIONALES?</div>
@@ -84,9 +94,6 @@
 
 </div>
     </div>
-
- 
-
     <script>
         // JavaScript para mostrar/ocultar respuestas cuando se hace clic en las preguntas
         const questions = document.querySelectorAll(".question");
@@ -98,5 +105,8 @@
             });
         });
     </script>
+       <?php
+    include 'footer.php';
+    ?>
 </body>
 </html>

@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #282828;
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #282828 0%, #dddecd 40%, #282828 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+h1 {
+    color: orange; /* Cambia el color del texto a naranja */
+}
+
+/* Estilos para las preguntas y respuestas */
+.faq {
+    border: 1px solid #ddd; /* Añade un borde alrededor de cada pregunta */
+    padding: 10px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease; /* Agrega una transición al color de fondo */
+}
+
+.faq:hover {
+    background-color: #e6f7ff; /* Cambia el color de fondo al pasar el mouse a azul claro */
+}
+
+/* Estilo para las preguntas */
+.question {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Estilo para las respuestas */
+.answer {
+    display: none;
+    margin-left: 20px;
+}
+
+/* Estilo para la lista ordenada dentro de la respuesta de la pregunta 5 */
+.answer ol {
+    margin-top: 0; /* Elimina el espacio superior de la lista ordenada */
+}

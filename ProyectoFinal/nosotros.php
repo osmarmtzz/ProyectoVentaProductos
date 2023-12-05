@@ -13,9 +13,6 @@ session_start();
 </head>
 <body>
 
-    <?php
-    include 'footer.php';
-    ?>
      <div class="titulo-mision-info">
     <h2 id="titulo-mision-info">Nuestra Misión</h2>
 </div>
@@ -72,6 +69,10 @@ session_start();
         <p id="nombres">Abraham</p>
         <p id="info">Hola! Soy Abraham, Estudiante de Ingeniería en Sistemas computacionales de la Universidad Autónoma de Aguascalientes y colaborador de DeportUAA, una pagina creada por estudiantes y para estudiantes de la universidad enfocada a brindar los mejores artículos y productos del mundo deportivo</p>
     </div>
+
+    <?php
+    include 'footer.php';
+    ?>
 
 </body>
 </html>
