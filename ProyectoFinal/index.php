@@ -24,10 +24,7 @@ session_start();
 </head>
 
 <body>
-    <div class="bienvenida">Bienvenido/a a DEPORTUAA</div>
-    <?php include 'nav.php'; ?>
   
-
     <div class="pt1">
         <div class="texto">
             <h2>¿Qué es DEPORTUAA?</h2>
