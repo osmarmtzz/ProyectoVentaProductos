@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+generarCaptcha();
+
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
     $username = "root";
@@ -77,21 +79,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
+    $captchaIngresado = $_POST["captcha"];
 
-    if (verificarCredenciales($email, $password)) {
-        $_SESSION["intentos"] = 0;
-        header("Location: index.php");
-        exit();
-    } else {
-        $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
-        $_SESSION["intentos"] = $intentos;
+   
+    if (verificarCaptcha($captchaIngresado)) {
+        error_log("Mensaje de registro: Este es un mensaje informativo.");
 
-        if ($intentos >= 3) {
-            header("Location: bloqueado.php?email=" . urlencode($email));
+       
+        if (verificarCredenciales($email, $password)) {
+            
+            $_SESSION["intentos"] = 0;
+            
+            header("Location: index.php");
             exit();
+        } else {
+            
+            $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
+            $_SESSION["intentos"] = $intentos;
+
+            if ($intentos >= 3) {
+                header("Location: bloqueado.php?email=" . urlencode($email));
+                exit();
+            } else {
+              
+                echo "Credenciales incorrectas. Intentos restantes: " . (3 - $intentos);
+            }
         }
-    }
+    } 
 }
+
 
 function obtenerInformacionUsuario($email) {
     $servername = "localhost";
@@ -122,6 +138,24 @@ function obtenerInformacionUsuario($email) {
 
     return $userInfo;
 }
+
+function generarCaptcha() {
+    $opcionesCaptcha = ["PNRHtR.png", "smwm.jpg", "ReCAptchA.jpeg", "qGphJD.jpg"];
+    $imagenCaptcha = $opcionesCaptcha[array_rand($opcionesCaptcha)];
+    $_SESSION['captcha'] = $imagenCaptcha;
+}
+
+function verificarCaptcha($captchaIngresado) {
+    if (isset($_SESSION['captcha'])) {
+        $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
+        if ($captchaIngresado === $nombreCaptcha) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,6 +166,17 @@ function obtenerInformacionUsuario($email) {
     <title>Iniciar|Registrar</title>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
     <link rel="stylesheet" href="css/login.css">
+    <style>
+        .error-container {
+            position: relative;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error-container p {
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
@@ -159,7 +204,9 @@ function obtenerInformacionUsuario($email) {
                     <input type="text" name="seguridad" placeholder="Pregunta de Seguridad: Deporte Favorito" required />
                     <input type="password" name="password" id="password" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
-                    <p id="error-message" style="color: red;"></p>
+                    <div class="error-container">
+                        <p id="error-message" style="color: red;"></p>
+                    </div>
                     <button type="submit" name="registro">Registrar</button>
                 </form>
             </div>
@@ -175,13 +222,20 @@ function obtenerInformacionUsuario($email) {
                     <input type="email" name="email" placeholder="Email" />
                     <input type="password" name="password" placeholder="Contraseña" />
                     <a href="#">Olvidaste tu contraseña?</a>
-                    <?php
+                    <div class="error-container">
+                        <?php
                         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
                             echo "<p>Registro exitoso. Ahora puedes iniciar sesión.</p>";
                         } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["intentos"])) {
                             echo "<p>Credenciales incorrectas. Intentos restantes: " . (3 - $_SESSION["intentos"]) . "</p>";
+                        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !verificarCaptcha($_POST["captcha"])) {
+                            echo "<p id='captcha-error-message' style='color: red;'>Error en el captcha. Por favor, inténtalo de nuevo.</p>";
                         }
-                    ?>
+                        ?>
+                    </div>
+                    <input type="text" name="captcha" id="captcha" placeholder="Ingresa el CAPTCHA" required />
+                    <img src="img/<?php echo $_SESSION['captcha']; ?>" alt="Captcha" />
+                    <span>Código: <?php echo pathinfo($_SESSION['captcha'], PATHINFO_FILENAME); ?></span>
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </div>
@@ -215,8 +269,8 @@ function obtenerInformacionUsuario($email) {
             return true;
         }
     </script>
-     <?php
-        include 'footer.php';
+    <?php
+    include 'footer.php';
     ?>
 </body>
 
