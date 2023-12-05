@@ -19,7 +19,10 @@
             <a href="productos.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'productos.php' ? 'active' : ''; ?>">PRODUCTOS</a>
             <a href="contacto.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'contacto.php' ? 'active' : ''; ?>">CONTACTO</a>
             <a href="carrito.php"  class="link-nav"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>
+            <a href="ayuda.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'ayuda.php' ? 'active' : ''; ?>">AYUDA</a>
+
             <a href="login.php" class="link-nav">INICIAR SESIÓN</a>
+
 
             <?php
             if (isset($_SESSION["user_cuenta"])) {
