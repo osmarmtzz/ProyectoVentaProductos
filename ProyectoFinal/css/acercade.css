@@ -1,9 +1,9 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #282828;
+    background-color: rgb(15, 9, 99);
     font-family:'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #282828 0%, #dddecd 40%, #282828 100%);
+    background: linear-gradient(to bottom, #32043a 0%, #412dd1 40%, #0a033e57 100%);
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -63,6 +63,12 @@ body {
     color: #00ced1;
     margin: 30px;
     font-family: 'Outfit', sans-serif;
+}
+#titulo-equipo {
+    text-align: center;
+    color: #00d5ff; 
+    font-size: 24px; 
+    margin-bottom: 20px;
 }
 
 /* Objetivo info */
@@ -129,7 +135,7 @@ body {
 }
 #info{
     font-family:'Poppins', sans-serif;
-    color: #fff;
+    color: #ece3e3;
     font-weight: bold;
     text-align: justify;
     margin-left: 10px;
