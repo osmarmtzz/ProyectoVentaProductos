@@ -132,8 +132,8 @@ else{
                     </div>
                     <div class="form-group">
                         <label for="descuento">Descuento</label>
-                        <input name="descuento" type="radio" class="form-control" value="descuento">Sí
-                        <input name="descuento" type="radio" class="form-control" value="descuento">No
+                        <input name="descuento" type="radio" class="form-control" value="si">Sí
+                        <input name="descuento" type="radio" class="form-control" value="no">No
                     </div>
                     <div class="form-group">
                         <label for="desc2">Descuento</label>
