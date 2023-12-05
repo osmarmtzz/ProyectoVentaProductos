@@ -43,7 +43,6 @@
     <div class="faq">
         <div class="question">4. ¿TIENE SERVICIO DE ATENCIÓN AL CLIENTE POR TELÉFONO O CHAT EN VIVO??</div>
         <div class="answer">Contamos con número de contacto al WhatsApp (449-661-97-56), asi como un chat en vivo como soporte. Nuestro chat en vivo está disponible durante nuestro horario de atención al cliente de L-V de 9 am - 10 pm. Simplemente haga clic en el icono de chat en la esquina inferior derecha de la página para empezar.
-   
 </div>
     </div>
 
@@ -56,6 +55,31 @@
                 <li>Pulsa el botón "Buscar" o presiona la tecla "Enter".</li>
                 <li>Los resultados de la búsqueda se mostrarán en una lista. Puedes hacer clic en un resultado para ver más detalles sobre el artículo.</li>
             </ol>
+
+    <div class="faq">
+        <div class="question">6. ¿HACEN ENVIOS INTERNACIONALES?</div>
+        <div class="answer">Sí, DEPORTUAA ofrece envíos internacionales. Durante el proceso de compra, podrás seleccionar tu ubicación y ver las opciones de envío disponibles para tu país. Ten en cuenta que los tiempos de entrega pueden variar según la ubicación.</div>
+    </div>
+
+    <div class="faq">
+        <div class="question">7. ¿CÓMO PUEDO CANCELAR UN PEDIDO YA REALIZADO?</div>
+        <div class="answer">Si necesitas cancelar un pedido que ya has realizado, por favor, ponte en contacto con nuestro servicio de atención al cliente lo antes posible. Ten en cuenta que una vez que el pedido ha sido enviado, la cancelación podría no ser posible.</div>
+    </div>
+
+    <div class="faq">
+        <div class="question">8. ¿PUEDO RASTREAR MI PEDIDO?</div>
+        <div class="answer">Sí, ofrecemos la posibilidad de rastrear tu pedido. Una vez que tu pedido haya sido enviado, recibirás un correo electrónico con el número de seguimiento y las instrucciones para rastrear tu paquete.</div>
+    </div>
+
+    <div class="faq">
+        <div class="question">9. ¿CÓMO PUEDO REALIZAR DEVOLUCIONES O CAMBIOS?</div>
+        <div class="answer">Si necesitas realizar una devolución o cambio, por favor contacta a nuestro servicio de atención al cliente. Te proporcionaremos las instrucciones necesarias y te ayudaremos a gestionar el proceso de manera eficiente.</div>
+    </div>
+
+    <div class="faq">
+        <div class="question">10. ¿QUÉ OPCIONES DE ENVÍO OFRECE DEPORTUAA?</div>
+        <div class="answer">DEPORTUAA ofrece opciones de envío estándar y express. El costo y tiempo de entrega pueden variar según tu ubicación. Puedes obtener más información sobre nuestras opciones de envío durante el proceso de compra.</div>
+    </div>
 
 
 </div>
