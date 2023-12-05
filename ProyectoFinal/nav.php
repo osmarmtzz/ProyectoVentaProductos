@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/nav.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
+        
         <nav>
             <a href="index.php" class="link-nav"><img src="img/Logo.png" alt="Descripción de la imagen"></a>
             <a href="index.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : ''; ?>">INICIO</a>
             <a href="nosotros.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'nosotros.php' ? 'active' : ''; ?>">NOSOTROS</a>
             <a href="productos.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'productos.php' ? 'active' : ''; ?>">PRODUCTOS</a>
             <a href="contacto.php" class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'contacto.php' ? 'active' : ''; ?>">CONTACTO</a>
-            <a href="carrito.php" class="link-nav">CARRITO</a>
+            <a href="carrito.php"  class="link-nav"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>
             <a href="login.php" class="link-nav">INICIAR SESIÓN</a>
 
             <?php
@@ -24,7 +29,11 @@
             }
             ?>
         </nav>
+        
     </header>
+    
+    <script src="https://kit.fontawesome.com/c8e2afe6ad.js" crossorigin="anonymous"></script>
+    
 </body>
 </html>
 
