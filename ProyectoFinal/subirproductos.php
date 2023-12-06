@@ -44,7 +44,7 @@ else{
      $sql = 'select * from productos';//hacemos cadena con la sentencia mysql que consulta todo el contenido de la tabla
      $resultado = $conexion -> query($sql); //aplicamos sentencia
 
-     if ($resultado -> num_rows){ //si la consulta genera registros
+    /* if ($resultado -> num_rows){ //si la consulta genera registros
           echo '<div style="margin-left: 20px;">';
           echo '<table class="table table-hover" style="width:50%;">';
           
@@ -78,7 +78,7 @@ else{
      else{
          echo "no hay datos";
      }
-    
+    */
      }//fin 
      
 }
@@ -89,8 +89,8 @@ else{
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
-    <link rel="stylesheet" href="css/nosotros.css">
+    <title>Subir Productos</title>
+    <link rel="stylesheet" href="css/subir.css">
     <?php include 'nav.php'; ?>
 </head>
 <body>
@@ -98,7 +98,7 @@ else{
         <div class="row">
             <div class="col-4">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method='post'>
-                    <h2>Registro de Usuarios</h2>
+                    <h2>Subir Producto</h2>
                     <div class="form-group">
                         <label for="idp">ID</label>
                         <input type="text" name="idp" class="form-control" id="idp" placeholder="">
@@ -132,8 +132,8 @@ else{
                     </div>
                     <div class="form-group">
                         <label for="descuento">Descuento</label>
-                        <input name="descuento" type="radio" class="form-control" value="descuento">Sí
-                        <input name="descuento" type="radio" class="form-control" value="descuento">No
+                        <input name="descuento" type="radio" class="form-control" value="si">Sí
+                        <input name="descuento" type="radio" class="form-control" value="no">No
                     </div>
                     <div class="form-group">
                         <label for="desc2">Descuento</label>
@@ -145,9 +145,12 @@ else{
         </div> <!-- fin row -->
     </div> <!-- fin container -->
     <br><br>
+    <footer>
     <?php
     include 'footer.php';
     ?>
+    </footer>
+    
 
 </body>
 </html>

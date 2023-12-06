@@ -1,6 +1,44 @@
 <?php
 session_start();
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST["nombre"];
+    $email = $_POST["email"];
+    $mensaje = $_POST["mensaje"];
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'deportuaa@gmail.com';
+        $mail->Password = 'pajf bxgv pzpf obav'; 
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setFrom('deportuaa@gmail.com','DEPORTUAA' );
+        $mail->addAddress($email,$nombre); 
+        $mail->isHTML(true);
+        $mail->Subject = 'Nuevo mensaje de contacto desde DEPORTUAA';
+        $mail->Body = "Hola $nombre,<br><br>Hemos recibido tu mensaje:<br><br>$mensaje<br><br>Pronto estaremos en contacto contigo!";
+
+        $mail->send();
+        echo 'Mensaje enviado correctamente';
+    } catch (Exception $e) {
+        echo "Error al enviar el mensaje: {$mail->ErrorInfo}";
+    }
+}
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
