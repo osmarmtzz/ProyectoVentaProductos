@@ -1,6 +1,28 @@
 <?php
 session_start();
+
+// Verificar si se recibieron parámetros en la URL
+if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
+    $idProducto = $_GET['id'];
+    $nombreProducto = $_GET['nombre'];
+    $precioProducto = $_GET['precio'];
+
+    // Inicializar el carrito si aún no existe en la sesión
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = array();
+    }
+
+    // Agregar el producto al carrito
+    $producto = array(
+        'id' => $idProducto,
+        'nombre' => $nombreProducto,
+        'precio' => $precioProducto
+    );
+
+    $_SESSION['carrito'][] = $producto;
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,20 +35,62 @@ session_start();
     <link rel="stylesheet" href="css/index.css">
     <!-- CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Agregar un estilo CSS para la tabla -->
+    <style>
+        table {
+            width: 50%;
+            margin: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-<?php include 'nav.php'; ?>
-<div class="pt1">
-    <div class="texto">
-        <h1>Carrito de Compras</h1>
+    <?php include 'nav.php'; ?>
+    <div class="pt1">
+        <div class="texto">
+            <h1>Carrito de Compras</h1>
+            <?php
+            // Mostrar el contenido del carrito
+            if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+                echo '<table>';
+                echo '<tr>';
+                echo '<th>ID</th>';
+                echo '<th>Nombre</th>';
+                echo '<th>Precio</th>';
+                echo '<th>Acciones</th>'; // Nueva columna para las acciones
+                echo '</tr>';
+                foreach ($_SESSION['carrito'] as $producto) {
+                    echo '<tr>';
+                    echo '<td>' . $producto['id'] . '</td>';
+                    echo '<td>' . $producto['nombre'] . '</td>';
+                    echo '<td>' . $producto['precio'] . '</td>';
+                    // Agregar un enlace o botón para eliminar el producto
+                    echo '<td><a href="eliminar_producto.php?id=' . $producto['id'] . '">Eliminar</a></td>';
+                    echo '</tr>';
+                }
+                echo '</table>';
+            } else {
+                echo '<p>El carrito está vacío.</p>';
+            }
+            ?>
+        </div>
     </div>
-    
-</div>
-<?php
-        include 'footer.php';
+    <?php
+    include 'footer.php';
     ?>
 </body>
 </html>
 <!-- SCRITPS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script></body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
 </html>
