@@ -125,7 +125,7 @@ session_start();
     </div>
 
     <div class="producto">
-      <a class="ver" href="#" role="button">Ver más...</a>
+    <a class="ver" href="productos.php" role="button">Ver más...</a>
     </div>
 </div>
 

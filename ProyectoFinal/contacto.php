@@ -153,10 +153,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             });
         });
+        
     </script>
     <div class="loader-wrapper">
     <div class="loader"></div>
     <p>Cargando...</p>
   </div>
+  <?php include 'footer.php'; ?>
+
 </body>
 </html>
