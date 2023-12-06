@@ -43,6 +43,7 @@ if ($resultado -> num_rows){ //si la consulta genera registros
                echo '<td>'. $fila['categoria'] . '</td>';
                echo '<td>'. $fila['descuento'] . '</td>';
                echo '<td>'. $fila['desc2'] . '</td>';
+               echo '<td>';?><a href="carrito.php" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a><?php '</td>';
            echo '</tr>';
        }   
        echo '</table">';
@@ -63,6 +64,7 @@ else{
     <title>Productos</title>
     <!-- LINKS -->
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/productos.css">
     <!-- CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>

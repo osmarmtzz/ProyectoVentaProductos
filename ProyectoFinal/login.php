@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
               
             }
         }
-    }
+    } 
 }
 
 
@@ -189,7 +189,7 @@ function verificarCaptcha($captchaIngresado) {
         </video>
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form method="post" action="#" onsubmit="return validarContraseñas()">
+                <form method="post" action="cookie.php" onsubmit="return validarContraseñas()">
                     <h1>Crear Cuenta </h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -197,12 +197,13 @@ function verificarCaptcha($captchaIngresado) {
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>o usa tu email para registrarte</span>
-                    <input type="text" name="nombre" placeholder="Nombre" required />
-                    <input type="text" name="cuenta" placeholder="Cuenta" required />
-                    <input type="email" name="email" placeholder="Email" required />
+                    <input type="text" name="nombre" placeholder="Nombre" value="<?php if(isset($_COOKIE["nombre"])) { echo $_COOKIE["nombre"]; } ?>" required />
+                    <input type="text" name="cuenta" placeholder="Cuenta" value="<?php if(isset($_COOKIE["cuenta"])) { echo $_COOKIE["cuenta"]; } ?>" required />
+                    <input type="email" name="email" placeholder="Email" value="<?php if(isset($_COOKIE["email"])) { echo $_COOKIE["email"]; } ?>" required />
                     <input type="text" name="seguridad" placeholder="Pregunta de Seguridad: Deporte Favorito" required />
                     <input type="password" name="password" id="password" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
+                    <input type="checkbox" name="remember" /> Recordar usuario y Contreseña
                     <div class="error-container">
                         <p id="error-message" style="color: red;"></p>
                     </div>
