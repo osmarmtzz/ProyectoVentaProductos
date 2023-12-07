@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-generarCaptcha();
-
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
     $username = "root";
@@ -79,34 +77,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $captchaIngresado = $_POST["captcha"];
 
-   
-    if (verificarCaptcha($captchaIngresado)) {
-        error_log("Mensaje de registro: Este es un mensaje informativo.");
+    if (verificarCredenciales($email, $password)) {
+        $_SESSION["intentos"] = 0;
+        header("Location: index.php");
+        exit();
+    } else {
+        $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
+        $_SESSION["intentos"] = $intentos;
 
-       
-        if (verificarCredenciales($email, $password)) {
-            
-            $_SESSION["intentos"] = 0;
-            
-            header("Location: index.php");
+        if ($intentos >= 3) {
+            header("Location: bloqueado.php?email=" . urlencode($email));
             exit();
         } else {
-            
-            $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
-            $_SESSION["intentos"] = $intentos;
-
-            if ($intentos >= 3) {
-                header("Location: bloqueado.php?email=" . urlencode($email));
-                exit();
-            } else {
-              
-            }
+            // Código adicional si es necesario
         }
-    } 
+    }
 }
-
 
 function obtenerInformacionUsuario($email) {
     $servername = "localhost";
@@ -136,23 +123,6 @@ function obtenerInformacionUsuario($email) {
     $conn->close();
 
     return $userInfo;
-}
-
-function generarCaptcha() {
-    $opcionesCaptcha = ["PNRHtR.png", "smwm.jpg", "ReCAptchA.jpeg", "qGphJD.jpg"];
-    $imagenCaptcha = $opcionesCaptcha[array_rand($opcionesCaptcha)];
-    $_SESSION['captcha'] = $imagenCaptcha;
-}
-
-function verificarCaptcha($captchaIngresado) {
-    if (isset($_SESSION['captcha'])) {
-        $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
-        if ($captchaIngresado === $nombreCaptcha) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 ?>
@@ -227,14 +197,9 @@ function verificarCaptcha($captchaIngresado) {
                             echo "<p>Registro exitoso. Ahora puedes iniciar sesión.</p>";
                         } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["intentos"])) {
                             echo "<p>Credenciales incorrectas. Intentos restantes: " . (3 - $_SESSION["intentos"]) . "</p>";
-                        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !verificarCaptcha($_POST["captcha"])) {
-                            echo "<p id='captcha-error-message' style='color: red;'>Error en el captcha. Por favor, inténtalo de nuevo.</p>";
                         }
                         ?>
                     </div>
-                    <input type="text" name="captcha" id="captcha" placeholder="Ingresa el CAPTCHA" required />
-                    <img src="img/<?php echo $_SESSION['captcha']; ?>" alt="Captcha" />
-                    <span>Código: <?php echo pathinfo($_SESSION['captcha'], PATHINFO_FILENAME); ?></span>
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </div>
@@ -268,9 +233,7 @@ function verificarCaptcha($captchaIngresado) {
             return true;
         }
     </script>
-    <?php
-    include 'footer.php';
-    ?>
+    <?php include 'footer.php'; ?>
    <div class="loader-wrapper">
     <div class="loader"></div>
     <p>Cargando...</p>
