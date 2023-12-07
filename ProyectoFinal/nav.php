@@ -27,7 +27,10 @@
 
             <?php
             if (isset($_SESSION["user_cuenta"])) {
-                echo '<a href="carrito.php" class="link-nav"><i class="fa-solid fa-cart-shopping fa-xl"></i></a>';
+                echo '<a href="carrito.php" class="link-nav">';
+                echo '<i class="fa-solid fa-cart-shopping fa-xl"></i>';
+                echo '<span class="contador-carrito">' . obtenerCantidadCarrito() . '</span>';
+                echo '</a>';
             }
             ?>
             <a href="<?php echo isset($_SESSION["user_cuenta"]) ? 'cerrar_sesion.php' : 'login.php'; ?>"
@@ -63,5 +66,18 @@ function obtenerSaludo() {
     } else {
         return "Buenas noches";
     }
+}
+
+function obtenerCantidadCarrito()
+{
+    $cantidad = 0;
+
+    if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+        foreach ($_SESSION['carrito'] as $producto) {
+            $cantidad += 1;
+        }
+    }
+
+    return $cantidad;
 }
 ?>
