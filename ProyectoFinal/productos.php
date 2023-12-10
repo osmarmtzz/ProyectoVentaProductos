@@ -7,6 +7,7 @@ $bd='deportuaa';
 
 //conexion a la base de datos
 $conexion = new mysqli($servidor,$cuenta,$password,$bd);
+$iter = 0;
 
 if ($conexion->connect_errno){
      die('Error en la conexion');
@@ -18,36 +19,46 @@ else {
 
     if ($resultado -> num_rows){ //si la consulta genera registros
         echo '<div style="margin-left: 20px;">';
-        echo '<table class="table table-hover" style="width:50%;">';
+        echo '<table class="table" style="width:50%;">';
 
-        echo '<tr>';
-        echo '<th>id</th>';
-        echo '<th>nombre</th>';
-        echo '<th>descripcion</th>';
-        echo '<th>existencia</th>';
-        echo '<th>precio</th>';
-        echo '<th>imagen</th>';
-        echo '<th>categoria</th>';
-        echo '<th>descuento</th>';
-        echo '<th>desc2</th>';
-        echo '<th>Acciones</th>'; // Nueva columna para el enlace al carrito
-        echo '</tr>';
+        //echo '<tr>';
+        //echo '<th>id</th>';
+        //echo '<th>nombre</th>';
+        //echo '<th>descripcion</th>';
+        //echo '<th>existencia</th>';
+        //echo '<th>precio</th>';
+        //echo '<th>imagen</th>';
+        //echo '<th>categoria</th>';
+        //echo '<th>descuento</th>';
+        //echo '<th>desc2</th>';
+        //echo '<th>Acciones</th>'; // Nueva columna para el enlace al carrito
+        //echo '</tr>';
 
         while ($fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
-            echo '<tr>';
-            echo '<td>'. $fila['idp'] . '</td>';
-            echo '<td>'. $fila['nomp'] . '</td>';
-            echo '<td>'. $fila['descripcion'] . '</td>';
-            echo '<td>'. $fila['existencia'] . '</td>';
-            echo '<td>'. $fila['precio'] . '</td>';
-            echo '<td><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"></td>';
-            echo '<td>'. $fila['categoria'] . '</td>';
-            echo '<td>'. $fila['descuento'] . '</td>';
-            echo '<td>'. $fila['desc2'] . '</td>';
+            //echo '<tr>';
+            //echo '<td>'. $fila['idp'] . '</td>';
+            //echo '<td>'. $fila['nomp'] . '</td>';
+            //echo '<td>'. $fila['descripcion'] . '</td>';
+            //echo '<td>'. $fila['existencia'] . '</td>';
+            //echo '<td>'. $fila['precio'] . '</td>';
+            //echo '<td><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"></td>';
+            //echo '<td>'. $fila['categoria'] . '</td>';
+            //echo '<td>'. $fila['descuento'] . '</td>';
+            //echo '<td>'. $fila['desc2'] . '</td>';
+            //echo '<td>';
+            //echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+            //echo '</td>';
+            //echo '</tr>';
             echo '<td>';
-            echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+                echo '<table class="produ">';
+                    echo '<tr>' . $fila['idp'] . '<br></tr>';
+                    echo '<tr>' . $fila['nomp'] . '<br></tr>';
+                    echo '<tr><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"><br></tr>';
+                    echo '<tr> $' . $fila['precio'] . '<br></tr>';
+                    echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+                    $iter = $iter + 1;
+                echo '</table>';
             echo '</td>';
-            echo '</tr>';
         }   
         echo '</table">';
         echo '</div>';
