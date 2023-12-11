@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-generarCaptcha();
-
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
     $username = "root";
@@ -15,14 +13,15 @@ function verificarCredenciales($email, $password) {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("SELECT id, password, cuenta FROM usuarios WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, password, cuenta, id_cargo FROM usuarios WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->bind_result($userId, $hashedPassword, $userCuenta);
+    $stmt->bind_result($userId, $hashedPassword, $userCuenta, $idCargo);
 
     if ($stmt->fetch() && password_verify($password, $hashedPassword)) {
         $_SESSION["user_cuenta"] = $userCuenta;
         $_SESSION["user_id"] = $userId;
+        $_SESSION["id_cargo"] = $idCargo; // Almacenar el rol en la sesión
         $_SESSION["intentos"] = 0;
         $stmt->close();
         $conn->close();
@@ -34,7 +33,7 @@ function verificarCredenciales($email, $password) {
     }
 }
 
-function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta) {
+function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta, $id_cargo) {
     $servername = "localhost";
     $username = "root";
     $dbpassword = "";
@@ -46,9 +45,9 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, pregunta_seguridad, password, cuenta) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, pregunta_seguridad, password, cuenta, id_cargo) VALUES (?, ?, ?, ?, ?, ?)");
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $stmt->bind_param("sssss", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta);
+    $stmt->bind_param("sssssi", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta, $id_cargo);
 
     if ($stmt->execute()) {
     } else {
@@ -66,47 +65,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
     $password_registro = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
     $cuenta = $_POST["cuenta"];
+    $id_cargo = $_POST["id_cargo"]; // Nuevo campo para almacenar el rol
 
-    if (empty($nombre) || empty($email_registro) || empty($preguntaSeguridad) || empty($password_registro) || empty($confirmPassword) || empty($cuenta)) {
+    if (empty($nombre) || empty($email_registro) || empty($preguntaSeguridad) || empty($password_registro) || empty($confirmPassword) || empty($cuenta) || empty($id_cargo)) {
         echo "Todos los campos son obligatorios";
     } elseif ($password_registro != $confirmPassword) {
         echo '<script>document.getElementById("error-message").innerHTML = "Las contraseñas no coinciden";</script>';
     } else {
-        registrarCuenta($nombre, $email_registro, $preguntaSeguridad, $password_registro, $cuenta);
+        registrarCuenta($nombre, $email_registro, $preguntaSeguridad, $password_registro, $cuenta, $id_cargo);
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $captchaIngresado = $_POST["captcha"];
 
-   
-    if (verificarCaptcha($captchaIngresado)) {
-        error_log("Mensaje de registro: Este es un mensaje informativo.");
+    if (verificarCredenciales($email, $password)) {
+        $_SESSION["intentos"] = 0;
+        if ($_SESSION["id_cargo"] == 1) {
+            header("Location: index.php"); // Página de inicio administrador con menu actualizado
+        } else {
+            header("Location: index.php"); // Página de inicio de cliente
+        }
+        exit();
+    } else {
+        $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
+        $_SESSION["intentos"] = $intentos;
 
-       
-        if (verificarCredenciales($email, $password)) {
-            
-            $_SESSION["intentos"] = 0;
-            
-            header("Location: index.php");
+        if ($intentos >= 3) {
+            header("Location: bloqueado.php?email=" . urlencode($email));
             exit();
         } else {
-            
-            $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
-            $_SESSION["intentos"] = $intentos;
-
-            if ($intentos >= 3) {
-                header("Location: bloqueado.php?email=" . urlencode($email));
-                exit();
-            } else {
-              
-            }
+            // Código adicional si es necesario
         }
-    } 
+    }
 }
-
 
 function obtenerInformacionUsuario($email) {
     $servername = "localhost";
@@ -137,25 +130,9 @@ function obtenerInformacionUsuario($email) {
 
     return $userInfo;
 }
-
-function generarCaptcha() {
-    $opcionesCaptcha = ["PNRHtR.png", "smwm.jpg", "ReCAptchA.jpeg", "qGphJD.jpg"];
-    $imagenCaptcha = $opcionesCaptcha[array_rand($opcionesCaptcha)];
-    $_SESSION['captcha'] = $imagenCaptcha;
-}
-
-function verificarCaptcha($captchaIngresado) {
-    if (isset($_SESSION['captcha'])) {
-        $nombreCaptcha = pathinfo($_SESSION['captcha'], PATHINFO_FILENAME);
-        if ($captchaIngresado === $nombreCaptcha) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,7 +158,6 @@ function verificarCaptcha($captchaIngresado) {
 <body>
     <div class="bienvenida"> Bienvenido/a a DEPORTUAA</div>
     <?php include 'nav.php'; ?>
-
     <div class="contenedor-padre">
         <video autoplay muted loop id="video-fondo">
             <source src="media/Login.mp4" type="video/mp4">
@@ -203,6 +179,11 @@ function verificarCaptcha($captchaIngresado) {
                     <input type="text" name="seguridad" placeholder="Pregunta de Seguridad: Deporte Favorito" required />
                     <input type="password" name="password" id="password" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
+                    <label for="id_cargo">Selecciona tu rol:</label>
+                        <select id="id_cargo" name="id_cargo">
+                            <option value="1">Administrador</option>
+                            <option value="2">Cliente</option>
+                        </select>
                     <div class="error-container">
                         <p id="error-message" style="color: red;"></p>
                     </div>
@@ -227,14 +208,9 @@ function verificarCaptcha($captchaIngresado) {
                             echo "<p>Registro exitoso. Ahora puedes iniciar sesión.</p>";
                         } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_SESSION["intentos"])) {
                             echo "<p>Credenciales incorrectas. Intentos restantes: " . (3 - $_SESSION["intentos"]) . "</p>";
-                        } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && !verificarCaptcha($_POST["captcha"])) {
-                            echo "<p id='captcha-error-message' style='color: red;'>Error en el captcha. Por favor, inténtalo de nuevo.</p>";
                         }
                         ?>
                     </div>
-                    <input type="text" name="captcha" id="captcha" placeholder="Ingresa el CAPTCHA" required />
-                    <img src="img/<?php echo $_SESSION['captcha']; ?>" alt="Captcha" />
-                    <span>Código: <?php echo pathinfo($_SESSION['captcha'], PATHINFO_FILENAME); ?></span>
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </div>
@@ -268,9 +244,7 @@ function verificarCaptcha($captchaIngresado) {
             return true;
         }
     </script>
-    <?php
-    include 'footer.php';
-    ?>
+    <?php include 'footer.php'; ?>
    <div class="loader-wrapper">
     <div class="loader"></div>
     <p>Cargando...</p>
