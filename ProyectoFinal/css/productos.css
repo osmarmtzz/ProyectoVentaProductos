@@ -12,3 +12,11 @@ body{
     text-align: center;
 }
 
+img.producto-imagen {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+img.producto-imagen:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+}

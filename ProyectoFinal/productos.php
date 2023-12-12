@@ -44,7 +44,7 @@ if (isset($_GET['id'])) {
     exit();
 }
 
-// Obtener categorías disponibles (ajusta la consulta según tu estructura de base de datos)
+// Obtener categorías disponibles
 $sql_categorias = 'SELECT DISTINCT categoria FROM productos';
 $resultado_categorias = $conexion->query($sql_categorias);
 
@@ -83,20 +83,13 @@ $resultado = $conexion->query($sql);
     <title>Productos</title>
     <!-- LINKS -->
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/productos.css"> <!-- Enlaza directamente a productos.css -->
+    <link rel="stylesheet" href="css/productos.css">
     <!-- CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
         crossorigin="anonymous">
     <style>
-        img.producto-imagen {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        img.producto-imagen:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            opacity: 0.8;
-        }
+
     </style>
 </head>
 
