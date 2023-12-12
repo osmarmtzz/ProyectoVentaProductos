@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 $servidor = 'localhost';
 $cuenta = 'root';
@@ -18,20 +19,15 @@ if (isset($_GET['id'])) {
     // Si no está logueado, mostrar mensaje y redirigir a la página de login
     if (!isset($_SESSION['usuario'])) {
         echo "Debes iniciar sesión para agregar productos al carrito.";
-        header('Location: login.php'); // Cambia 'login.php' al nombre de tu página de login
+        header('Refresh: 3; URL=login.php');
         exit();
     }
 
-    // Usuario logueado, proceder con la lógica para agregar productos al carrito
-
-    // Resto del código para agregar productos al carrito
-    // Por ejemplo, podrías agregar el producto al carrito almacenado en la sesión
-    $productoId = $_GET['id'];
+    // Usuario logueado, añadir productos al carrito
     $productoNombre = $_GET['nombre'];
     $productoPrecio = $_GET['precio'];
 
     // Aquí podrías tener una estructura de datos que represente el carrito en la sesión
-    // Puedes ajustar esto según tus necesidades
     if (!isset($_SESSION['carrito'])) {
         $_SESSION['carrito'] = array();
     }
@@ -76,14 +72,12 @@ if ($precio_min !== null && $precio_max !== null) {
 }
 
 $resultado = $conexion->query($sql);
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <!-- Metadatos y enlaces de estilo -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
@@ -98,8 +92,6 @@ $resultado = $conexion->query($sql);
         img.producto-imagen {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
-
-        /* Efecto de sombra y cambio de opacidad al pasar el ratón sobre la imagen */
         img.producto-imagen:hover {
             transform: scale(1.1);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -113,7 +105,7 @@ $resultado = $conexion->query($sql);
     <div class="pt1">
 
         <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <label for="categoria">Seleccionar Categoría:</label>
+        <label for="categoria">Seleccionar Categoría:</label>
             <select name="categoria" id="categoria">
                 <option value="" <?php echo empty($categoria_seleccionada) ? 'selected' : ''; ?>>Todas las Categorías
                 </option>
@@ -131,6 +123,7 @@ $resultado = $conexion->query($sql);
             <input type="number" name="precio_max" id="precio_max"
                 value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
             <button type="submit">Filtrar</button>
+            <!-- ... -->
         </form>
     </div>
 
@@ -184,3 +177,6 @@ $resultado = $conexion->query($sql);
 </body>
 
 </html>
+<?php
+ob_end_flush();
+?>
