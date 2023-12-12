@@ -1,43 +1,93 @@
 <?php
 session_start();
 
-// Verificar si se recibieron parámetros en la URL
 if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     $idProducto = $_GET['id'];
     $nombreProducto = $_GET['nombre'];
     $precioProducto = $_GET['precio'];
 
-    // Inicializar el carrito si aún no existe en la sesión
     if (!isset($_SESSION['carrito'])) {
         $_SESSION['carrito'] = array();
     }
 
-    // Agregar el producto al carrito
-    $producto = array(
-        'id' => $idProducto,
-        'nombre' => $nombreProducto,
-        'precio' => $precioProducto
-    );
-
-    $_SESSION['carrito'][] = $producto;
-}
-
-// Verificar si se ha enviado el formulario de pago
-if (isset($_POST['realizar_pago'])) {
-    // Lógica para procesar el pago y generar el ticket
-    $subtotal = 0;
-
-    // Calcular el subtotal y otros detalles del ticket
-    foreach ($_SESSION['carrito'] as $producto) {
-        $subtotal += $producto['precio'];
-        // Puedes realizar cálculos adicionales según tus necesidades
+    $conexion = mysqli_connect('localhost', 'root', '', 'deportuaa');
+    if (!$conexion) {
+        die('Error de conexión: ' . mysqli_connect_error());
     }
 
-    $envio = 5.00; // Costo de envío (puedes ajustar según tus necesidades)
-    $impuesto = $subtotal * 0.1; // 10% de impuesto (puedes ajustar según tus necesidades)
+    $sql = "SELECT existencia FROM productos WHERE idp = '$idProducto'";
+    $resultado = mysqli_query($conexion, $sql);
+
+    if ($resultado) {
+        $fila = mysqli_fetch_assoc($resultado);
+        $existencia = $fila['existencia'];
+
+        if ($existencia > 0) {
+            $index = array_search($idProducto, array_column($_SESSION['carrito'], 'id'));
+
+            if ($index !== false) {
+                $nuevaCantidad = $_SESSION['carrito'][$index]['cantidad'] + 1;
+
+                if ($nuevaCantidad > $existencia) {
+                    echo '<script>alert("No hay suficientes existencias para el producto seleccionado.");</script>';
+                } else {
+                    $_SESSION['carrito'][$index]['cantidad'] = $nuevaCantidad;
+                }
+            } else {
+                $producto = array(
+                    'id' => $idProducto,
+                    'nombre' => $nombreProducto,
+                    'precio' => $precioProducto,
+                    'cantidad' => 1
+                );
+
+                $_SESSION['carrito'][] = $producto;
+            }
+        } else {
+            echo '<script>alert("No hay suficientes existencias para el producto seleccionado.");</script>';
+        }
+    } else {
+        echo 'Error en la consulta: ' . mysqli_error($conexion);
+    }
+
+    mysqli_close($conexion);
+}
+
+function calcularPrecioTotal() {
+    $total = 0;
+
+    foreach ($_SESSION['carrito'] as $producto) {
+        $total += $producto['precio'] * $producto['cantidad'];
+    }
+
+    return $total;
+}
+
+if (isset($_GET['eliminar']) && isset($_GET['id'])) {
+    $idEliminar = $_GET['id'];
+    $indexEliminar = array_search($idEliminar, array_column($_SESSION['carrito'], 'id'));
+
+    if ($indexEliminar !== false) {
+        $_SESSION['carrito'][$indexEliminar]['cantidad']--;
+
+        if ($_SESSION['carrito'][$indexEliminar]['cantidad'] == 0) {
+            unset($_SESSION['carrito'][$indexEliminar]);
+            $_SESSION['carrito'] = array_values($_SESSION['carrito']); // Reindexar el array
+        }
+    }
+}
+
+if (isset($_POST['realizar_pago'])) {
+    $subtotal = 0;
+
+    foreach ($_SESSION['carrito'] as $producto) {
+        $subtotal += $producto['precio'] * $producto['cantidad'];
+    }
+
+    $envio = 5.00;
+    $impuesto = $subtotal * 0.1;
     $total = $subtotal + $envio + $impuesto;
 
-    // Guardar los detalles del ticket en la sesión (puedes guardarlos en una base de datos en un entorno de producción)
     $_SESSION['ticket'] = array(
         'subtotal' => $subtotal,
         'envio' => $envio,
@@ -48,7 +98,6 @@ if (isset($_POST['realizar_pago'])) {
 
     session_write_close();
 
-    // Después de procesar el pago, redirigir a la página de muestra de ticket
     header("Location: mostrar_ticket.php");
     exit();
 }
@@ -57,21 +106,36 @@ if (isset($_POST['realizar_pago'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Encabezado del HTML -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito</title>
-    <!-- LINKS -->
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/index.css">
-    <!-- CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <!-- Agregar un estilo CSS para la tabla -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .pt1 {
+            padding-top: 20px;
+        }
+
+        .texto {
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
         table {
-            width: 50%;
-            margin: 20px;
+            width: 80%;
+            margin: 20px auto;
             border-collapse: collapse;
+            background-color: #fff;
         }
 
         th, td {
@@ -83,48 +147,80 @@ if (isset($_POST['realizar_pago'])) {
         th {
             background-color: #f2f2f2;
         }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <?php include 'nav.php'; ?>
     <div class="pt1">
-        <div class="texto">
+        <div class="container texto">
             <h1>Carrito de Compras</h1>
             <?php
-            // Mostrar el contenido del carrito
             if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
-                echo '<table>';
+                echo '<table class="table">';
+                echo '<thead>';
                 echo '<tr>';
                 echo '<th>ID</th>';
                 echo '<th>Nombre</th>';
                 echo '<th>Precio</th>';
-                echo '<th>Acciones</th>'; // Nueva columna para las acciones
+                echo '<th>Cantidad</th>';
+                echo '<th>Acciones</th>';
                 echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
                 foreach ($_SESSION['carrito'] as $producto) {
                     echo '<tr>';
                     echo '<td>' . $producto['id'] . '</td>';
                     echo '<td>' . $producto['nombre'] . '</td>';
-                    echo '<td>' . $producto['precio'] . '</td>';
-                    // Agregar un enlace o botón para eliminar el producto
-                    echo '<td><a href="eliminar_producto.php?id=' . $producto['id'] . '">Eliminar</a></td>';
+                    echo '<td>$' . $producto['precio'] . '</td>';
+                    echo '<td>' . $producto['cantidad'] . '</td>';
+                    echo '<td><a href="carrito.php?eliminar=1&id=' . $producto['id'] . '" class="btn btn-danger">Eliminar</a></td>';
                     echo '</tr>';
                 }
+                echo '</tbody>';
+                echo '</table>';
+
+                // Mostrar tabla del precio total
+                echo '<table class="table">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th>Precio Total Sin Impuestos </th>';
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+                echo '<tr>';
+                echo '<td>$' . calcularPrecioTotal() . '</td>';
+                echo '</tr>';
+                echo '</tbody>';
                 echo '</table>';
             } else {
                 echo '<p>El carrito está vacío.</p>';
             }
             ?>
-
-            <!-- Agregar un formulario para realizar el pago -->
             <form action="" method="post">
-                <input type="submit" name="realizar_pago" value="Realizar Pago">
+                <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
+                <a href="productos.php" class="btn btn-secondary">Volver a la tienda</a>
+
             </form>
         </div>
     </div>
     <?php include 'footer.php'; ?>
 </body>
 </html>
-<!-- SCRITPS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</body>
-</html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
