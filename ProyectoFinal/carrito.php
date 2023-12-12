@@ -21,6 +21,37 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
 
     $_SESSION['carrito'][] = $producto;
 }
+
+// Verificar si se ha enviado el formulario de pago
+if (isset($_POST['realizar_pago'])) {
+    // Lógica para procesar el pago y generar el ticket
+    $subtotal = 0;
+
+    // Calcular el subtotal y otros detalles del ticket
+    foreach ($_SESSION['carrito'] as $producto) {
+        $subtotal += $producto['precio'];
+        // Puedes realizar cálculos adicionales según tus necesidades
+    }
+
+    $envio = 5.00; // Costo de envío (puedes ajustar según tus necesidades)
+    $impuesto = $subtotal * 0.1; // 10% de impuesto (puedes ajustar según tus necesidades)
+    $total = $subtotal + $envio + $impuesto;
+
+    // Guardar los detalles del ticket en la sesión (puedes guardarlos en una base de datos en un entorno de producción)
+    $_SESSION['ticket'] = array(
+        'subtotal' => $subtotal,
+        'envio' => $envio,
+        'impuesto' => $impuesto,
+        'total' => $total,
+        'productos' => $_SESSION['carrito']
+    );
+
+    session_write_close();
+
+    // Después de procesar el pago, redirigir a la página de muestra de ticket
+    header("Location: mostrar_ticket.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -83,11 +114,14 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
                 echo '<p>El carrito está vacío.</p>';
             }
             ?>
+
+            <!-- Agregar un formulario para realizar el pago -->
+            <form action="" method="post">
+                <input type="submit" name="realizar_pago" value="Realizar Pago">
+            </form>
         </div>
     </div>
-    <?php
-    include 'footer.php';
-    ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>
 <!-- SCRITPS -->
