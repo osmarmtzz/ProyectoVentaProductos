@@ -61,14 +61,7 @@ img.producto-imagen:hover {
 <body>
     <?php include 'nav.php'; ?>
     <div class="pt1">
-        <div class="texto">
-            <a href="subirproductos.php"
-                class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'subirproductos.php' ? 'active' : ''; ?>">Subir
-                Productos</a>
-            <a href="editarproductos.php"
-                class="link-nav <?php echo basename($_SERVER['PHP_SELF']) == 'editarproductos.php' ? 'active' : ''; ?>">Editar
-                Productos</a>
-        </div>
+       
         <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label for="categoria">Seleccionar Categoría:</label>
             <select name="categoria" id="categoria">
