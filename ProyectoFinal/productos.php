@@ -12,26 +12,47 @@ if ($conexion->connect_errno) {
     die('Error en la conexión');
 }
 
-// obtener categorías disponibles (puedes ajustar la consulta según tu estructura de base de datos)
+// obtener categorías disponibles (ajusta la consulta según tu estructura de base de datos)
 $sql_categorias = 'SELECT DISTINCT categoria FROM productos';
 $resultado_categorias = $conexion->query($sql_categorias);
 
-$categoria_seleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : ''; // obtiene la categoría seleccionada
+$categoria_seleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : '';
+$precio_min = isset($_GET['precio_min']) && is_numeric($_GET['precio_min']) ? $_GET['precio_min'] : null;
+$precio_max = isset($_GET['precio_max']) && is_numeric($_GET['precio_max']) ? $_GET['precio_max'] : null;
 
-// aplicar el filtro de categoría a la consulta SQL
+//echo "Categoría seleccionada: $categoria_seleccionada"; // Para depuración
+
+// Construir la consulta SQL con los filtros
 $sql = "SELECT * FROM productos";
-if (!empty($categoria_seleccionada)) {
+
+if ($categoria_seleccionada !== '' && $categoria_seleccionada !== 'Todas las Categorías') {
     $sql .= " WHERE categoria = '$categoria_seleccionada'";
 }
+
+if ($precio_min !== null && $precio_max !== null) {
+    $precio_min = (float)$precio_min;
+    $precio_max = (float)$precio_max;
+    $sql .= " AND precio BETWEEN $precio_min AND $precio_max";
+} elseif ($precio_min !== null) {
+    $precio_min = (float)$precio_min;
+    $sql .= " AND precio >= $precio_min";
+} elseif ($precio_max !== null) {
+    $precio_max = (float)$precio_max;
+    $sql .= " AND precio <= $precio_max";
+}
+
+//echo $sql; // Imprimir la consulta SQL (para depuración)
 
 $resultado = $conexion->query($sql);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <!-- Metadatos y enlaces de estilo -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
@@ -44,16 +65,15 @@ $resultado = $conexion->query($sql);
         crossorigin="anonymous">
     <style>
         img.producto-imagen {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
 
-/* Efecto de sombra y cambio de opacidad al pasar el ratón sobre la imagen */
-img.producto-imagen:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    opacity: 0.8;
-}
-        
+        /* Efecto de sombra y cambio de opacidad al pasar el ratón sobre la imagen */
+        img.producto-imagen:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            opacity: 0.8;
+        }
     </style>
 </head>
 
@@ -71,15 +91,19 @@ img.producto-imagen:hover {
         <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label for="categoria">Seleccionar Categoría:</label>
             <select name="categoria" id="categoria">
-                <option value="" <?php echo empty($categoria_seleccionada) ? 'selected' : ''; ?>>Todas las Categorías</option>
+                <option value="" <?php echo empty($categoria_seleccionada) ? 'selected' : ''; ?>>Todas las Categorías
+                </option>
                 <?php
-                // Imprimir opciones de categoría
                 while ($row_categoria = $resultado_categorias->fetch_assoc()) {
                     $categoria_actual = $row_categoria['categoria'];
                     echo "<option value=\"$categoria_actual\" " . ($categoria_actual == $categoria_seleccionada ? 'selected' : '') . ">$categoria_actual</option>";
                 }
                 ?>
             </select>
+            <label for="precio_min">Precio Mínimo:</label>
+            <input type="number" name="precio_min" id="precio_min" value="<?php echo isset($_GET['precio_min']) ? $_GET['precio_min'] : ''; ?>" placeholder="Precio mínimo">
+            <label for="precio_max">Precio Máximo:</label>
+            <input type="number" name="precio_max" id="precio_max" value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
             <button type="submit">Filtrar</button>
         </form>
     </div>
@@ -104,10 +128,10 @@ img.producto-imagen:hover {
         echo '<th>categoria</th>';
         echo '<th>descuento</th>';
         echo '<th>desc2</th>';
-        echo '<th>Acciones</th>'; // Nueva columna para el enlace al carrito
+        echo '<th>Acciones</th>';
         echo '</tr>';
 
-        $count = 0; // Contador para limitar a 8 productos
+        $count = 0;
         while ($fila = $resultado->fetch_assoc() and $count < 8) {
             echo '<tr>';
             echo '<td>' . $fila['idp'] . '</td>';
@@ -130,7 +154,7 @@ img.producto-imagen:hover {
     }
     ?>
 
-    <!-- SCRITPS -->
+    <!-- Scripts y enlaces de JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
