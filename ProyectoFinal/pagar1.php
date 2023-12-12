@@ -57,33 +57,25 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
 <body>
     <?php include 'nav.php'; ?>
     <div class="pt1">
+    <h1>Metodo de Pago</h1>
+    <h2>Ingresa los datos de tu tarjeta de crédito</h2>
+    <form action="/procesar_pago" method="post">
+        <label for="titular">Titular de la tarjeta:</label>
+        <input type="text" id="titular" name="titular" required><br><br>
+
+        <label for="numero">Número de tarjeta:</label>
+        <input type="number" id="numero" name="numero" required><br><br>
+
+        <label for="caducidad">Fecha de caducidad (MM/AA):</label>
+        <input type="text" id="caducidad" name="caducidad" required><br><br>
+
+        <label for="cvv">CVV/CVC:</label>
+        <input type="number" id="cvv" name="cvv" required><br><br>
+
+        <input type="submit" value="Enviar">
+    </form>
         <div class="texto">
-            <h1>Carrito de Compras</h1>
-            <?php
-            // Mostrar el contenido del carrito
-            if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
-                echo '<table>';
-                echo '<tr>';
-                echo '<th>ID</th>';
-                echo '<th>Nombre</th>';
-                echo '<th>Precio</th>';
-                echo '<th>Acciones</th>'; // Nueva columna para las acciones
-                echo '</tr>';
-                foreach ($_SESSION['carrito'] as $producto) {
-                    echo '<tr>';
-                    echo '<td>' . $producto['id'] . '</td>';
-                    echo '<td>' . $producto['nombre'] . '</td>';
-                    echo '<td>' . $producto['precio'] . '</td>';
-                    // Agregar un enlace o botón para eliminar el producto
-                    echo '<td><a href="eliminar_producto.php?id=' . $producto['id'] . '">Eliminar</a></td>';
-                    echo '</tr>';
-                }
-                echo '</table>';
-                echo '<button type="submit"><a href="pagar1.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav">Pagar</a></button>';
-            } else {
-                echo '<p>El carrito está vacío.</p>';
-            }
-            ?>
+            <button type="submit"><a href="pagar2.php" class="link-nav">Continuar</a></button>
         </div>
     </div>
     <?php

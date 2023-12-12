@@ -58,7 +58,7 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     <?php include 'nav.php'; ?>
     <div class="pt1">
         <div class="texto">
-            <h1>Carrito de Compras</h1>
+            <h1>Pagar</h1>
             <?php
             // Mostrar el contenido del carrito
             if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
@@ -74,12 +74,10 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
                     echo '<td>' . $producto['id'] . '</td>';
                     echo '<td>' . $producto['nombre'] . '</td>';
                     echo '<td>' . $producto['precio'] . '</td>';
-                    // Agregar un enlace o botón para eliminar el producto
-                    echo '<td><a href="eliminar_producto.php?id=' . $producto['id'] . '">Eliminar</a></td>';
                     echo '</tr>';
                 }
                 echo '</table>';
-                echo '<button type="submit"><a href="pagar1.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav">Pagar</a></button>';
+                echo '<button type="submit"><a href="pagar.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav">Pagar</a></button>';
             } else {
                 echo '<p>El carrito está vacío.</p>';
             }
