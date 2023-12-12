@@ -5,8 +5,8 @@ $cuenta = 'root';
 $password = '';
 $bd = 'deportuaa';
 
-//conexion a la base de datos
-$conexion = new mysqli($servidor,$cuenta,$password,$bd);
+// conexión a la base de datos
+$conexion = new mysqli($servidor, $cuenta, $password, $bd);
 $iter = 0;
 
 if ($conexion->connect_errno) {
@@ -21,8 +21,6 @@ $categoria_seleccionada = isset($_GET['categoria']) ? $_GET['categoria'] : '';
 $precio_min = isset($_GET['precio_min']) && is_numeric($_GET['precio_min']) ? $_GET['precio_min'] : null;
 $precio_max = isset($_GET['precio_max']) && is_numeric($_GET['precio_max']) ? $_GET['precio_max'] : null;
 
-//echo "Categoría seleccionada: $categoria_seleccionada"; // Para depuración
-
 // Construir la consulta SQL con los filtros
 $sql = "SELECT * FROM productos";
 
@@ -31,14 +29,14 @@ if ($categoria_seleccionada !== '' && $categoria_seleccionada !== 'Todas las Cat
 }
 
 if ($precio_min !== null && $precio_max !== null) {
-    $precio_min = (float)$precio_min;
-    $precio_max = (float)$precio_max;
+    $precio_min = (float) $precio_min;
+    $precio_max = (float) $precio_max;
     $sql .= " AND precio BETWEEN $precio_min AND $precio_max";
 } elseif ($precio_min !== null) {
-    $precio_min = (float)$precio_min;
+    $precio_min = (float) $precio_min;
     $sql .= " AND precio >= $precio_min";
 } elseif ($precio_max !== null) {
-    $precio_max = (float)$precio_max;
+    $precio_max = (float) $precio_max;
     $sql .= " AND precio <= $precio_max";
 }
 
@@ -47,7 +45,6 @@ if ($precio_min !== null && $precio_max !== null) {
 $resultado = $conexion->query($sql);
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -81,7 +78,7 @@ $resultado = $conexion->query($sql);
 <body>
     <?php include 'nav.php'; ?>
     <div class="pt1">
-       
+
         <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <label for="categoria">Seleccionar Categoría:</label>
             <select name="categoria" id="categoria">
@@ -95,9 +92,11 @@ $resultado = $conexion->query($sql);
                 ?>
             </select>
             <label for="precio_min">Precio Mínimo:</label>
-            <input type="number" name="precio_min" id="precio_min" value="<?php echo isset($_GET['precio_min']) ? $_GET['precio_min'] : ''; ?>" placeholder="Precio mínimo">
+            <input type="number" name="precio_min" id="precio_min"
+                value="<?php echo isset($_GET['precio_min']) ? $_GET['precio_min'] : ''; ?>" placeholder="Precio mínimo">
             <label for="precio_max">Precio Máximo:</label>
-            <input type="number" name="precio_max" id="precio_max" value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
+            <input type="number" name="precio_max" id="precio_max"
+                value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
             <button type="submit">Filtrar</button>
         </form>
     </div>
@@ -112,45 +111,32 @@ $resultado = $conexion->query($sql);
         echo '<div style="margin-left: 20px;">';
         echo '<table class="table" style="width:50%;">';
 
-        //echo '<tr>';
-        //echo '<th>id</th>';
-        //echo '<th>nombre</th>';
-        //echo '<th>descripcion</th>';
-        //echo '<th>existencia</th>';
-        //echo '<th>precio</th>';
-        //echo '<th>imagen</th>';
-        //echo '<th>categoria</th>';
-        //echo '<th>descuento</th>';
-        //echo '<th>desc2</th>';
-        //echo '<th>Acciones</th>'; // Nueva columna para el enlace al carrito
-        //echo '</tr>';
-
-        while ($fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
-            //echo '<tr>';
-            //echo '<td>'. $fila['idp'] . '</td>';
-            //echo '<td>'. $fila['nomp'] . '</td>';
-            //echo '<td>'. $fila['descripcion'] . '</td>';
-            //echo '<td>'. $fila['existencia'] . '</td>';
-            //echo '<td>'. $fila['precio'] . '</td>';
-            //echo '<td><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"></td>';
-            //echo '<td>'. $fila['categoria'] . '</td>';
-            //echo '<td>'. $fila['descuento'] . '</td>';
-            //echo '<td>'. $fila['desc2'] . '</td>';
-            //echo '<td>';
-            //echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
-            //echo '</td>';
-            //echo '</tr>';
+        while ($fila = $resultado->fetch_assoc()) {
             echo '<td>';
-                echo '<table class="produ">';
-                    echo '<tr>' . $fila['idp'] . '<br></tr>';
-                    echo '<tr>' . $fila['nomp'] . '<br></tr>';
-                    echo '<tr><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"><br></tr>';
-                    echo '<tr> $' . $fila['precio'] . '<br></tr>';
-                    echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
-                    $iter = $iter + 1;
-                echo '</table>';
+            echo '<table class="produ">';
+            echo '<tr>' . $fila['idp'] . '<br></tr>';
+            echo '<tr>' . $fila['nomp'] . '<br></tr>';
+            echo '<tr><img src="productos/' . htmlspecialchars(basename($fila['imagen'])) . '" height="150px" width="150px"><br></tr>';
+
+            // Verificar si hay un descuento aplicado
+            if ($fila['descuento'] > 0) {
+                $precioOriginal = $fila['precio'];
+                $descuento = $fila['descuento'];
+                $precioConDescuento = $precioOriginal - ($precioOriginal * ($descuento / 100));
+
+                // Mostrar el precio con descuento y tachar el precio original
+                echo '<tr><del>$' . $precioOriginal . '</del> $' . $precioConDescuento . '<br></tr>';
+            } else {
+                // Si no hay descuento, mostrar solo el precio original
+                echo '<tr>$' . $fila['precio'] . '<br></tr>';
+            }
+
+            // Enlace al carrito
+            echo '<a href="carrito.php?id=' . $fila['idp'] . '&nombre=' . $fila['nomp'] . '&precio=' . $fila['precio'] . '" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+            $iter = $iter + 1;
+            echo '</table>';
             echo '</td>';
-        }   
+        }
         echo '</table">';
         echo '</div>';
     } else {
