@@ -44,6 +44,18 @@
                 echo '<span class="saludo">' . $saludo . ', ' . $_SESSION["user_cuenta"] . '</span>';
             }
             ?>
+                <?php
+// Mostrar opciones específicas según el rol
+if (isset($_SESSION["id_cargo"]) && $_SESSION["id_cargo"] == 1) { // Admin
+    echo '<div nav.php>
+            <ul>
+                <li><a href="subirproductos.php">Altas</a></li>
+                <li><a href="bajar_productos.php">Bajas</a></li>
+                <li><a href="editarproductos.php">Cambios</a></li>
+            </ul>
+          </div>';
+}
+?>
         </nav>
 
     </header>

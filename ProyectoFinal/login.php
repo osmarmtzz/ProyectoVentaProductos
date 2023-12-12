@@ -13,14 +13,15 @@ function verificarCredenciales($email, $password) {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("SELECT id, password, cuenta FROM usuarios WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id, password, cuenta, id_cargo FROM usuarios WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->bind_result($userId, $hashedPassword, $userCuenta);
+    $stmt->bind_result($userId, $hashedPassword, $userCuenta, $idCargo);
 
     if ($stmt->fetch() && password_verify($password, $hashedPassword)) {
         $_SESSION["user_cuenta"] = $userCuenta;
         $_SESSION["user_id"] = $userId;
+        $_SESSION["id_cargo"] = $idCargo; // Almacenar el rol en la sesión
         $_SESSION["intentos"] = 0;
         $stmt->close();
         $conn->close();
@@ -32,7 +33,7 @@ function verificarCredenciales($email, $password) {
     }
 }
 
-function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta) {
+function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta, $id_cargo) {
     $servername = "localhost";
     $username = "root";
     $dbpassword = "";
@@ -44,9 +45,9 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, pregunta_seguridad, password, cuenta) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO usuarios (nombre, email, pregunta_seguridad, password, cuenta, id_cargo) VALUES (?, ?, ?, ?, ?, ?)");
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $stmt->bind_param("sssss", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta);
+    $stmt->bind_param("sssssi", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta, $id_cargo);
 
     if ($stmt->execute()) {
     } else {
@@ -64,13 +65,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
     $password_registro = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
     $cuenta = $_POST["cuenta"];
+    $id_cargo = $_POST["id_cargo"]; // Nuevo campo para almacenar el rol
 
-    if (empty($nombre) || empty($email_registro) || empty($preguntaSeguridad) || empty($password_registro) || empty($confirmPassword) || empty($cuenta)) {
+    if (empty($nombre) || empty($email_registro) || empty($preguntaSeguridad) || empty($password_registro) || empty($confirmPassword) || empty($cuenta) || empty($id_cargo)) {
         echo "Todos los campos son obligatorios";
     } elseif ($password_registro != $confirmPassword) {
         echo '<script>document.getElementById("error-message").innerHTML = "Las contraseñas no coinciden";</script>';
     } else {
-        registrarCuenta($nombre, $email_registro, $preguntaSeguridad, $password_registro, $cuenta);
+        registrarCuenta($nombre, $email_registro, $preguntaSeguridad, $password_registro, $cuenta, $id_cargo);
     }
 }
 
@@ -80,7 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
 
     if (verificarCredenciales($email, $password)) {
         $_SESSION["intentos"] = 0;
-        header("Location: index.php");
+        if ($_SESSION["id_cargo"] == 1) {
+            header("Location: index.php"); // Página de inicio administrador con menu actualizado
+        } else {
+            header("Location: index.php"); // Página de inicio de cliente
+        }
         exit();
     } else {
         $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
@@ -124,8 +130,9 @@ function obtenerInformacionUsuario($email) {
 
     return $userInfo;
 }
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -151,7 +158,6 @@ function obtenerInformacionUsuario($email) {
 <body>
     <div class="bienvenida"> Bienvenido/a a DEPORTUAA</div>
     <?php include 'nav.php'; ?>
-
     <div class="contenedor-padre">
         <video autoplay muted loop id="video-fondo">
             <source src="media/Login.mp4" type="video/mp4">
@@ -173,6 +179,11 @@ function obtenerInformacionUsuario($email) {
                     <input type="text" name="seguridad" placeholder="Pregunta de Seguridad: Deporte Favorito" required />
                     <input type="password" name="password" id="password" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
+                    <label for="id_cargo">Selecciona tu rol:</label>
+                        <select id="id_cargo" name="id_cargo">
+                            <option value="1">Administrador</option>
+                            <option value="2">Cliente</option>
+                        </select>
                     <div class="error-container">
                         <p id="error-message" style="color: red;"></p>
                     </div>
