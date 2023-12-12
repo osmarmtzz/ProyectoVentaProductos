@@ -73,7 +73,7 @@ if ($conexion->connect_errno) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
-    <link rel="stylesheet" href="css/nosotros.css">
+    <link rel="stylesheet" href="css/cambios.css">
     <?php include 'nav.php'; ?>
 </head>
 <body>
