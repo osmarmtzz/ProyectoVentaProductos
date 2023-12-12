@@ -79,24 +79,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
+      // Verificar el código captcha
+    $userCaptcha = $_POST["captcha"];
+    $captchaCode = isset($_SESSION['captcha_code']) ? $_SESSION['captcha_code'] : '';
 
-    if (verificarCredenciales($email, $password)) {
-        $_SESSION["intentos"] = 0;
-        if ($_SESSION["id_cargo"] == 1) {
-            header("Location: index.php"); // Página de inicio administrador con menu actualizado
-        } else {
-            header("Location: index.php"); // Página de inicio de cliente
-        }
-        exit();
+    if (empty($userCaptcha) || $userCaptcha !== $captchaCode) {
+        echo '<script>document.getElementById("captcha-error-message").innerHTML = "Código captcha incorrecto";</script>';
     } else {
-        $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
-        $_SESSION["intentos"] = $intentos;
+        // Resto de tu código de inicio de sesión
+        $email = $_POST["email"];
+        $password = $_POST["password"];
 
-        if ($intentos >= 3) {
-            header("Location: bloqueado.php?email=" . urlencode($email));
+        if (verificarCredenciales($email, $password)) {
+            $_SESSION["intentos"] = 0;
+            if ($_SESSION["id_cargo"] == 1) {
+                header("Location: index.php"); // Página de inicio administrador con menu actualizado
+            } else {
+                header("Location: index.php"); // Página de inicio de cliente
+            }
             exit();
         } else {
-            // Código adicional si es necesario
+            $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
+            $_SESSION["intentos"] = $intentos;
+
+            if ($intentos >= 3) {
+                header("Location: bloqueado.php?email=" . urlencode($email));
+                exit();
+            } else {
+                // Código adicional si es necesario
+            }
         }
     }
 }
@@ -152,6 +163,11 @@ function obtenerInformacionUsuario($email) {
         .error-container p {
             display: inline-block;
         }
+    .captcha-error {
+        color: red;
+    }
+</style>
+
     </style>
 </head>
 
@@ -211,6 +227,19 @@ function obtenerInformacionUsuario($email) {
                         }
                         ?>
                     </div>
+                    <div class="captcha-container">
+    <img src="captcha.php" alt="Captcha">
+    <input type="text" name="captcha" placeholder="Ingrese el código captcha" required>
+    <div class="captcha-error" id="captcha-error-message">
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
+            echo "Código captcha incorrecto";
+        }
+        ?>
+    </div>
+</div>
+
+
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </div>
@@ -232,18 +261,30 @@ function obtenerInformacionUsuario($email) {
     </div>
     <script src="js/login.js"></script>
     <script>
-        function validarContraseñas() {
-            var password = document.getElementById("password").value;
-            var confirmPassword = document.getElementById("confirmPassword").value;
+    function validarContraseñas() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
 
-            if (password !== confirmPassword) {
-                document.getElementById("error-message").innerHTML = "Las contraseñas no coinciden";
-                return false;
-            }
-
-            return true;
+        if (password !== confirmPassword) {
+            document.getElementById("error-message").innerHTML = "Las contraseñas no coinciden";
+            return false;
         }
-    </script>
+
+        // Validar el captcha con JavaScript
+        var captchaError = document.getElementById("captcha-error-message");
+        var userCaptcha = document.getElementsByName("captcha")[0].value;
+
+        if (userCaptcha === "") {
+            captchaError.innerHTML = "Ingrese el código captcha";
+            return false;
+        } else {
+            captchaError.innerHTML = "";  // Limpiar el mensaje de error
+            return true;  // Asegúrate de devolver true si la validación del captcha es exitosa
+        }
+    }
+</script>
+
+
     <?php include 'footer.php'; ?>
    <div class="loader-wrapper">
     <div class="loader"></div>
