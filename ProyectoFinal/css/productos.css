@@ -1,74 +1,14 @@
-/* Mejora el estilo de las tablas, centrado y degradado en el body */
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #f8f9fa, #e2e6ea); /* Degradado en el fondo */
-    color: #343a40; /* Cambia el color del texto según tus preferencias */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    justify-content: center; /* Centra el contenido verticalmente */
-    min-height: 100vh;
+body{
+    text-align: center;
+    background: #282828;
 }
 
-.pt1 {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #343a40; /* Ajusta el color del fondo según tus preferencias */
-    color: #ffffff; /* Ajusta el color del texto según tus preferencias */
-    width: 100%;
+.pt1{
+    text-align: center;
 }
 
-.texto {
-    display: flex;
+.text{
+    color:#ffa500;
+    text-align: center;
 }
 
-.link-nav {
-    text-decoration: none;
-    color: #ffa500; /* Ajusta el color del texto según tus preferencias */
-    margin-right: 20px;
-    font-size: 18px; /* Ajusta el tamaño del texto según tus preferencias */
-}
-
-.active {
-    font-weight: bold; /* Resalta el enlace activo */
-}
-
-/* Agrega estilos para el contenedor de la tabla */
-.table-container {
-    margin-top: 20px; /* Ajusta el espacio superior según tus preferencias */
-    width: 80%; /* Ajusta el ancho del contenedor de la tabla */
-}
-
-/* Agrega estilos para la tabla */
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th, .table td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: left;
-}
-
-.table th {
-    background-color: #343a40; /* Ajusta el color de fondo del encabezado según tus preferencias */
-    color: #ffffff; /* Ajusta el color del texto del encabezado según tus preferencias */
-}
-
-.table tr:nth-child(even) {
-    background-color: #f2f2f2; /* Ajusta el color de fondo de las filas pares según tus preferencias */
-}
-
-.table tr:hover {
-    background-color: #d4edda; /* Ajusta el color de fondo al pasar el mouse según tus preferencias */
-}
-
-/* Agrega estilos para el enlace del carrito */
-.link-nav img {
-    border: none;
-}
