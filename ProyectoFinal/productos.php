@@ -13,7 +13,42 @@ if ($conexion->connect_errno) {
     die('Error en la conexión');
 }
 
-// obtener categorías disponibles (ajusta la consulta según tu estructura de base de datos)
+// Verificar si el usuario está logueado solo cuando hace clic en el enlace del carrito
+if (isset($_GET['id'])) {
+    // Si no está logueado, mostrar mensaje y redirigir a la página de login
+    if (!isset($_SESSION['usuario'])) {
+        echo "Debes iniciar sesión para agregar productos al carrito.";
+        header('Location: login.php'); // Cambia 'login.php' al nombre de tu página de login
+        exit();
+    }
+
+    // Usuario logueado, proceder con la lógica para agregar productos al carrito
+
+    // Resto del código para agregar productos al carrito
+    // Por ejemplo, podrías agregar el producto al carrito almacenado en la sesión
+    $productoId = $_GET['id'];
+    $productoNombre = $_GET['nombre'];
+    $productoPrecio = $_GET['precio'];
+
+    // Aquí podrías tener una estructura de datos que represente el carrito en la sesión
+    // Puedes ajustar esto según tus necesidades
+    if (!isset($_SESSION['carrito'])) {
+        $_SESSION['carrito'] = array();
+    }
+
+    // Agregar el producto al carrito
+    $_SESSION['carrito'][] = array(
+        'id' => $productoId,
+        'nombre' => $productoNombre,
+        'precio' => $productoPrecio
+    );
+
+    // Puedes redirigir a otra página después de agregar el producto al carrito
+    header('Location: carrito.php'); // Ajusta el nombre según la página de carrito
+    exit();
+}
+
+// Obtener categorías disponibles (ajusta la consulta según tu estructura de base de datos)
 $sql_categorias = 'SELECT DISTINCT categoria FROM productos';
 $resultado_categorias = $conexion->query($sql_categorias);
 
@@ -39,8 +74,6 @@ if ($precio_min !== null && $precio_max !== null) {
     $precio_max = (float) $precio_max;
     $sql .= " AND precio <= $precio_max";
 }
-
-//echo $sql; // Imprimir la consulta SQL (para depuración)
 
 $resultado = $conexion->query($sql);
 
