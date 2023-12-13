@@ -59,6 +59,9 @@ if (isset($_SESSION['ticket'])) {
     $pdf->Cell(100, 10, 'Impuesto:', 1, 0, 'L');
     $pdf->Cell(0, 10, '$' . number_format($ticket['impuesto'], 2), 1, 1, 'R');
 
+    $pdf->Cell(100, 10, 'Descuento Cupón:', 1, 0, 'L');
+    $pdf->Cell(0, 10, '$' . number_format($ticket['cupon'], 2), 1, 1, 'R');
+
     $pdf->Cell(100, 10, 'Total a Pagar:', 1, 0, 'L');
     $pdf->Cell(0, 10, '$' . number_format($ticket['total'], 2), 1, 1, 'R');
 
