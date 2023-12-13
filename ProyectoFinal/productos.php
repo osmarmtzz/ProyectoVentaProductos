@@ -5,7 +5,6 @@ $cuenta = 'root';
 $password = '';
 $bd = 'deportuaa';
 
-//conexion a la base de datos
 $conexion = new mysqli($servidor, $cuenta, $password, $bd);
 $iter = 0;
 
@@ -33,12 +32,20 @@ $resultado = $conexion->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos</title>
-    <link rel="stylesheet" href="css/productos.css">
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/productos.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        img.producto-imagen {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        img.producto-imagen:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            opacity: 0.8;
+        }
+    </style>
 </head>
 
 <body>
@@ -66,25 +73,41 @@ $resultado = $conexion->query($sql);
 
     <?php
     if ($resultado->num_rows) {
-        echo '<div class="producto-container">';
+        echo '<div style="margin-left: 20px;">';
+        echo '<table class="table" style="width:50%;">';
+
         while ($fila = $resultado->fetch_assoc()) {
-            echo '<div class="producto-card">';
-            echo '<p>' . $fila['nomp'] . '</p>';
-            echo '<img src="productos/' . htmlspecialchars(basename($fila['imagen'])) . '" height="150px" width="150px">';
-            echo '<p>$' . $fila['precio'] . '</p>';
-            echo '<a href="carrito.php?id=' . $fila['idp'] . '&nombre=' . $fila['nomp'] . '&precio=' . $fila['precio'] . '" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
-            echo '</div>';
+            echo '<td>';
+            echo '<table class="produ">';
+            echo '<tr>' . $fila['idp'] . '<br></tr>';
+            echo '<tr>' . $fila['nomp'] . '<br></tr>';
+            echo '<tr><img src="productos/' . htmlspecialchars(basename($fila['imagen'])) . '" height="150px" width="150px"><br></tr>';
+            echo '<tr> $' . $fila['precio'] . '<br></tr>';
+
+            if (isset($_SESSION["user_cuenta"])) {
+                echo '<a href="carrito.php?id=' . $fila['idp'] . '&nombre=' . $fila['nomp'] . '&precio=' . $fila['precio'] . '" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+            } else {
+                echo '<button onclick="mostrarAlerta()"><img src="img/carrito.png" height="50px" width="50px"></button>';
+            }
+
+            $iter = $iter + 1;
+            echo '</table>';
+            echo '</td>';
         }
+        echo '</table">';
         echo '</div>';
     } else {
         echo "No hay datos";
     }
     ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+    <script>
+        function mostrarAlerta() {
+            alert("Debes iniciar sesión antes de agregar productos al carrito.");
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
-
