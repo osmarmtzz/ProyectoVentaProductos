@@ -1,0 +1,58 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #282828;
+}
+
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+ #barChart {
+    width: 50%;
+    margin: 100px 600px 100px 10px;
+    border: 10px solid gold;
+    background: #535353; 
+}
+
+#pieChart {
+    width: 45%;
+    margin: 10px 10px 30px 1000px;
+    border: 10px solid gold;
+    background-color: #535353;
+}
+
+.card-custom {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    position: absolute;
+    margin-left: 1080px; 
+    bottom: 400px;  
+    width: 800px !important; 
+    height: 200px;
+    background-color: #535353;
+    color: #c2a833;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-custom2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    position: absolute;
+    margin-left: 100px; 
+    top: 650px;  
+    width: 800px !important; 
+    height: 200px;
+    background-color: #535353;
+    color: #c2a833;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
