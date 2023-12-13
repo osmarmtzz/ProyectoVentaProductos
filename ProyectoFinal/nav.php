@@ -52,9 +52,7 @@ if (isset($_SESSION["id_cargo"]) && $_SESSION["id_cargo"] == 1) { // Admin
                 <li><a href="subirproductos.php">Altas</a></li>
                 <li><a href="bajar_productos.php">Bajas</a></li>
                 <li><a href="editarproductos.php">Cambios</a></li>
-                <li><a href="estadisticas.php">Estadisticas</a></li>
-
-
+                <li><a href="graficas.php">Estadísticas</a></li>
             </ul>
           </div>';
 }
