@@ -13,6 +13,7 @@ session_start();
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
     <style>
         body {
@@ -34,6 +35,16 @@ session_start();
             font-size: 18px; /* Aumenta el tamaño del texto */
             border-color: black;
         }
+        #cargarProductos {
+        background-color: orange;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin: 20px auto;
+    }
 
     </style>
 
@@ -101,12 +112,11 @@ session_start();
             <p>Descubre nuestra amplia seleccion de productos deportivos de alta calidad,desde equipos para entrenamiento hasta accesorios esenciales, nuestra coleccion de productos tiene todo lo que necesitas para llevar tu rendimiento al siguiente nivel</p>
         </div>
     </div>
-    <!-- Agrega esta sección después del carrusel en tu archivo HTML -->
-    <h2>Categorías</h2>
-<div class="productos">
-    
 
-    <div class="producto">
+    <h2>Categorías</h2>
+<div id="productosContainer" class="productos">
+  
+<div class="producto">
         <img src="img/fut.jpg" alt="Producto 1">
         <h3>Equipo de entrenamiento</h3>
         <p>Nuestro Kit de Entrenamiento te proporciona la versatilidad y la calidad que necesitas para alcanzar tus metas de acondicionamiento físico. </p>
@@ -115,8 +125,8 @@ session_start();
 
     <div class="producto">
         <img src="img/Uniforme_fut.jpg" alt="Producto 2">
-        <h3>Ropa</h3>
-        <p>Colección de Ropa Deportiva está diseñada para acompañarte en cada paso de tu viaje activo.</p>
+        <h3>Calzado</h3>
+        <p>Colección de Calzado Deportivo está diseñado para acompañarte en cada paso de tu viaje activo.</p>
         <a class="ver2" style= "color: orange"href="#" role="button">Ir a categoria</a>
         
     </div>
@@ -133,13 +143,7 @@ session_start();
     </div>
 </div>
 
-<div style= "text-align:center; border: 1px solid #ccc; padding: 20px;">
-    <h2></h2>
-    <video width="70%" height="400" controls>
-      <source src="media/video/video1.mp4" type="video/mp4" >
-    </video>
-</div>
-
+<button id="cargarProductos" style="margin-top: 20px;">Contenido adicional</button> <!--bton ajax!-->
 
 
 <div class="card text-center">
@@ -161,5 +165,25 @@ session_start();
 </html>
 
 <!-- SCRITPS -->
+<script>
+        $(document).ready(function() {
+            // Asigna un evento al clic del botón
+            $("#cargarProductos").click(function() {
+                // Realiza una solicitud AJAX al servidor PHP
+                $.ajax({
+                    url: "obtener_productos.php", // Archivo PHP que manejará la solicitud
+                    type: "GET", // Método HTTP (GET en este caso)
+                    success: function(data) {
+                        // Callback llamado si la solicitud es exitosa
+                        $("#productosContainer").html(data); // Actualiza el contenido del contenedor con la respuesta del servidor
+                    },
+                    error: function() {
+                        // Callback llamado si hay un error en la solicitud
+                        alert("Error al cargar los productos");
+                    }
+                });
+            });
+        });
+    </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </html>
