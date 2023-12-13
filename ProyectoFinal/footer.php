@@ -58,7 +58,7 @@
             <a href="https://instagram.com/depor.tuaa?igshid=MzNlNGNkZWQ4Mg==" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="#" target="_blank"><i class="fab fa-facebook-square"></i></a>
         </div>
-        <h1>Esta página web fue creada con fines escolares y no posee ninguna funcionalidad. Se desaconseja cualquier intento de compra, ya que no se ofrece ningún producto o servicio en venta.</h1>
+        <p>Esta página web fue creada con fines escolares y no posee ninguna funcionalidad. Se desaconseja cualquier intento de compra, ya que no se ofrece ningún producto o servicio en venta.</p>
 
 
         <?php
