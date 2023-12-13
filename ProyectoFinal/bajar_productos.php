@@ -15,8 +15,8 @@ if ($conexion->connect_errno) {
     if (isset($_POST["baja_producto"]) && isset($_POST["id_productos_baja"])) {
         $productos_baja = $_POST["id_productos_baja"];
 
-        // Verificar si se seleccionaron dos productos
-        if (count($productos_baja) === 2) {
+        // Verificar si se seleccionaron productos
+        if (count($productos_baja) > 0) {
             foreach ($productos_baja as $id_producto_baja) {
                 // Realizar la consulta para obtener los datos del producto
                 $sql = "SELECT * FROM productos WHERE idp = '$id_producto_baja'";
@@ -41,7 +41,7 @@ if ($conexion->connect_errno) {
                 }
             }
         } else {
-            echo "<div class='mensaje-error'>Debes seleccionar exactamente dos productos para dar de baja.</div>";
+            echo "<div class='mensaje-error'>Debes seleccionar al menos un producto para dar de baja.</div>";
         }
     }
 
@@ -86,29 +86,28 @@ if ($conexion->connect_errno) {
     <title>Dar de Baja Productos</title>
     <link rel="stylesheet" href="css/subir.css">
     <style>
-    /* Estilos para mensajes de baja */
-    .mensaje-baja {
-        border: 1px solid #ffcc00; /* Dorado */
-        padding: 10px;
-        margin-bottom: 20px;
-        background-color: #ffd700; /* Dorado */
-        color: #333; /* Negro */
-    }
+        /* Estilos para mensajes de baja */
+        .mensaje-baja {
+            border: 1px solid #ffcc00; /* Dorado */
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #ffd700; /* Dorado */
+            color: #333; /* Negro */
+        }
 
-    /* Estilos para mensajes de error */
-    .mensaje-error {
-        color: #d9534f; /* Rojo oscuro (para resaltar el error) */
-        margin-bottom: 20px;
-    }
+        /* Estilos para mensajes de error */
+        .mensaje-error {
+            color: #d9534f; /* Rojo oscuro (para resaltar el error) */
+            margin-bottom: 20px;
+        }
 
-    /* Estilos para mensajes generales */
-    .mensaje {
-        color: #ffd700; /* Dorado */
-        margin-bottom: 20px;
-    }
-</style>
+        /* Estilos para mensajes generales */
+        .mensaje {
+            color: #ffd700; /* Dorado */
+            margin-bottom: 20px;
+        }
+    </style>
 
-   
     <?php include 'nav.php'; ?>
 </head>
 <body>
@@ -117,11 +116,11 @@ if ($conexion->connect_errno) {
             <!-- Otras secciones del código, si las hay -->
 
             <!-- Sección para dar de baja productos -->
-            <div class="col-4">
+            <div class="col-12"> <!-- Cambiado a col-12 para ocupar toda la anchura -->
                 <!-- No se requiere formulario aquí, ya está en PHP -->
-            </div> <!-- fin col -->
-        </div> <!-- fin row -->
-    </div> <!-- fin container -->
+            </div>
+        </div>
+    </div>
     <br><br>
     <footer>
         <?php include 'footer.php'; ?>

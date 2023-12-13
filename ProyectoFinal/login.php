@@ -1,5 +1,11 @@
 <?php
 session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
 
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
@@ -32,7 +38,6 @@ function verificarCredenciales($email, $password) {
         return false;
     }
 }
-
 function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta, $id_cargo) {
     $servername = "localhost";
     $username = "root";
@@ -50,12 +55,52 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
     $stmt->bind_param("sssssi", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta, $id_cargo);
 
     if ($stmt->execute()) {
+        // Envío de correo electrónico al usuario registrado
+        enviarCorreoRegistro($email, $nombre);
     } else {
         echo "Error al registrar. Inténtalo de nuevo.";
     }
 
     $stmt->close();
     $conn->close();
+}
+
+// Función para enviar correo electrónico al usuario registrado
+function enviarCorreoRegistro($email, $nombre) {
+    
+
+
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'deportuaa@gmail.com';
+        $mail->Password = 'pajf bxgv pzpf obav';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setFrom('deportuaa@gmail.com', 'DEPORTUAA');
+        $mail->addAddress($email, $nombre);
+        $mail->isHTML(true);
+        $mail->Subject = 'Bienvenido a DEPORTUAA';
+        $mail->Body = "
+            <p>Hola $nombre,</p>
+            <p>¡Gracias por registrarte en DEPORTUAA!</p>
+            <p>Te damos la bienvenida a nuestra comunidad.</p>
+            <p>Esperamos que disfrutes de nuestra plataforma.</p>
+            <img src='img/cupon1.png'>
+            <p>Atentamente,</p>
+            <p>Equipo DEPORTUAA</p>
+        ";
+
+        $mail->send();
+    } catch (Exception $e) {
+        // Puedes manejar errores de envío de correo aquí si es necesario
+        echo "Error al enviar el correo: {$mail->ErrorInfo}";
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
