@@ -54,15 +54,49 @@ $resultado = $conexion->query($sql);
     <link rel="stylesheet" href="css/productos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        img.producto-imagen {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
+           img.producto-imagen {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    }
 
-        img.producto-imagen:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            opacity: 0.8;
-        }
+    img.producto-imagen:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        opacity: 0.8;
+    }
+
+    body {
+        background-image: url(img/fondo.jpg);
+    }
+
+    .container {
+        background-color: black; /* Fondo negro para el contenedor principal */
+        color: black; /* Texto en color blanco */
+        border: 5px solid gold; /* Borde dorado */
+        padding: 20px; /* Espaciado interno para el contenido */
+    }
+
+    .product-card {
+        /* Estilos para cada tarjeta de producto */
+        margin: 10px;
+        padding: 10px;
+        background-color: white; /* Fondo negro para las tarjetas de producto */
+        color: black; /* Texto en color blanco */
+        border: 2px solid gold; /* Borde dorado */
+    }
+
+    .product-card p {
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; /* Cambia la fuente del texto dentro de las tarjetas */
+    }
+
+    .filters {
+        /* Estilos para la sección de filtros */
+        background-color: black; /* Fondo negro para la sección de filtros */
+        color: white; /* Texto en color blanco */
+        border: 2px solid gold; /* Borde dorado */
+        padding: 10px; /* Espaciado interno para los elementos dentro de la sección de filtros */
+        margin-bottom: 20px; /* Agrega espacio en la parte inferior */
+    }
+
     </style>
 </head>
 
@@ -126,13 +160,14 @@ $resultado = $conexion->query($sql);
             ?>
         </div>
     </div>
+    
+    <?php include 'footer.php'; ?>
 
     <script>
         function mostrarAlerta() {
             alert("Debes iniciar sesión antes de agregar productos al carrito.");
         }
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

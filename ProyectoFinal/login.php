@@ -1,5 +1,11 @@
 <?php
 session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer-master/src/Exception.php';
+require 'PHPMailer-master/src/PHPMailer.php';
+require 'PHPMailer-master/src/SMTP.php';
 
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
@@ -21,7 +27,7 @@ function verificarCredenciales($email, $password) {
     if ($stmt->fetch() && password_verify($password, $hashedPassword)) {
         $_SESSION["user_cuenta"] = $userCuenta;
         $_SESSION["user_id"] = $userId;
-        $_SESSION["id_cargo"] = $idCargo; // Almacenar el rol en la sesión
+        $_SESSION["id_cargo"] = $idCargo;
         $_SESSION["intentos"] = 0;
         $stmt->close();
         $conn->close();
@@ -50,12 +56,46 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
     $stmt->bind_param("sssssi", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta, $id_cargo);
 
     if ($stmt->execute()) {
+        enviarCorreoRegistro($email, $nombre);
     } else {
         echo "Error al registrar. Inténtalo de nuevo.";
     }
 
     $stmt->close();
     $conn->close();
+}
+
+function enviarCorreoRegistro($email, $nombre) {
+    $mail = new PHPMailer(true);
+    $mail->CharSet = 'UTF-8';
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'deportuaa@gmail.com';
+        $mail->Password = 'pajf bxgv pzpf obav';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setFrom('deportuaa@gmail.com', 'DEPORTUAA');
+        $mail->addAddress($email, $nombre);
+        $mail->isHTML(true);
+        $mail->Subject = 'Bienvenido a DEPORTUAA';
+        $mail->Body = "
+            <p>Hola $nombre,</p>
+            <p>¡Gracias por registrarte en DEPORTUAA!</p>
+            <p>Te damos la bienvenida a nuestra comunidad.</p>
+            <p>Esperamos que disfrutes de nuestra plataforma.</p>
+            <img src='img/cupon1.png'>
+            <p>Atentamente,</p>
+            <p>Equipo DEPORTUAA</p>
+        ";
+
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Error al enviar el correo: {$mail->ErrorInfo}";
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
@@ -66,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
     $confirmPassword = $_POST["confirmPassword"];
     $recordar = isset($_POST["recordar"]) ? $_POST["recordar"] : false;
     $cuenta = $_POST["cuenta"];
-    $id_cargo = $_POST["id_cargo"]; // Nuevo campo para almacenar el rol
+    $id_cargo = $_POST["id_cargo"];
 
     if (empty($nombre) || empty($email_registro) || empty($preguntaSeguridad) || empty($password_registro) || empty($confirmPassword) || empty($cuenta) || empty($id_cargo)) {
         echo "Todos los campos son obligatorios";
@@ -80,23 +120,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-      // Verificar el código captcha
+    $guardarCredenciales = isset($_POST["guardarCredenciales"]) ? true : false;
     $userCaptcha = $_POST["captcha"];
     $captchaCode = isset($_SESSION['captcha_code']) ? $_SESSION['captcha_code'] : '';
 
     if (empty($userCaptcha) || $userCaptcha !== $captchaCode) {
         echo '<script>document.getElementById("captcha-error-message").innerHTML = "Código captcha incorrecto";</script>';
     } else {
-        // Resto de tu código de inicio de sesión
         $email = $_POST["email"];
         $password = $_POST["password"];
 
         if (verificarCredenciales($email, $password)) {
             $_SESSION["intentos"] = 0;
             if ($_SESSION["id_cargo"] == 1) {
-                header("Location: index.php"); // Página de inicio administrador con menu actualizado
+                header("Location: index.php");
             } else {
-                header("Location: index.php"); // Página de inicio de cliente
+                header("Location: index.php");
             }
             exit();
         } else {
@@ -106,8 +145,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
             if ($intentos >= 3) {
                 header("Location: bloqueado.php?email=" . urlencode($email));
                 exit();
-            } else {
-                // Código adicional si es necesario
             }
         }
     }
@@ -180,7 +217,6 @@ function obtenerInformacionUsuario($email) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -200,11 +236,9 @@ function obtenerInformacionUsuario($email) {
         .error-container p {
             display: inline-block;
         }
-    .captcha-error {
-        color: red;
-    }
-</style>
-
+        .captcha-error {
+            color: red;
+        }
     </style>
 </head>
 
@@ -266,18 +300,18 @@ function obtenerInformacionUsuario($email) {
                         ?>
                     </div>
                     <div class="captcha-container">
-    <img src="captcha.php" alt="Captcha">
-    <input type="text" name="captcha" placeholder="Ingrese el código captcha" required>
-    <div class="captcha-error" id="captcha-error-message">
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
-            echo "Código captcha incorrecto";
-        }
-        ?>
-    </div>
-</div>
-
-
+                        <img src="captcha.php" alt="Captcha">
+                        <input type="text" name="captcha" placeholder="Ingrese el código captcha" required>
+                        <div class="captcha-error" id="captcha-error-message">
+                            <?php
+                            if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
+                                echo "Código captcha incorrecto";
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <label for="guardarCredenciales">Guardar usuario y contraseña</label>
+                    <input type="checkbox" name="guardarCredenciales" id="guardarCredenciales">
                     <button type="submit">Iniciar Sesión</button>
                 </form>
             </div>
@@ -298,31 +332,6 @@ function obtenerInformacionUsuario($email) {
         </div>
     </div>
     <script src="js/login.js"></script>
-    <script>
-    function validarContraseñas() {
-        var password = document.getElementById("password").value;
-        var confirmPassword = document.getElementById("confirmPassword").value;
-
-        if (password !== confirmPassword) {
-            document.getElementById("error-message").innerHTML = "Las contraseñas no coinciden";
-            return false;
-        }
-
-        // Validar el captcha con JavaScript
-        var captchaError = document.getElementById("captcha-error-message");
-        var userCaptcha = document.getElementsByName("captcha")[0].value;
-
-        if (userCaptcha === "") {
-            captchaError.innerHTML = "Ingrese el código captcha";
-            return false;
-        } else {
-            captchaError.innerHTML = "";  // Limpiar el mensaje de error
-            return true;  // Asegúrate de devolver true si la validación del captcha es exitosa
-        }
-    }
-</script>
-
-
     <?php include 'footer.php'; ?>
    <div class="loader-wrapper">
     <div class="loader"></div>
