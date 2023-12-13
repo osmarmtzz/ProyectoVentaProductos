@@ -83,14 +83,36 @@ if (isset($_GET['eliminar']) && isset($_GET['id'])) {
 
 if (isset($_POST['realizar_pago'])) {
     $subtotal = 0;
-
     foreach ($_SESSION['carrito'] as $producto) {
         $subtotal += $producto['precio'] * $producto['cantidad'];
     }
+    $ps = $_POST['pais'];
+    $cp = $_POST['cupon'];
+    if($ps == "mexico"){
+        $envio == 0;
+        $impuesto = $subtotal * 0.01;
+    }elseif($ps == "eua"){
+        $envio == 500;
+        $impuesto = $subtotal * 0.029;
+    }elseif($ps == "canada"){
+        $envio == 700;
+        $impuesto = $subtotal * 0.05;
+    }else{
+        $envio == 0;
+        $impuesto = $subtotal * 0; 
+    }
+    $tot = $subtotal + $envio + $impuesto;
+    if($cp == "vqfgkm"){
+        $tot2 = $tot * 0.3;
+        $total = $tot * 0.7; 
+    }elseif($cp == "gafgad"){
+        $tot2 = $tot * 0.2;
+        $total = $tot * 0.8; 
+    }elseif($cp == "gjhsfgr"){
+        $tot2 = $tot * 0.15;
+        $total = $tot * 0.85; 
+    }
 
-    $envio = 5.00;
-    $impuesto = $subtotal * 0.1;
-    $total = $subtotal + $envio + $impuesto;
 
     $_SESSION['ticket'] = array(
         'subtotal' => $subtotal,
@@ -116,9 +138,10 @@ if (isset($_POST['realizar_pago'])) {
     <title>Carrito</title>
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/carrito.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/carrito.css">
+    <!-- CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   
 </head>
 
 <body>
@@ -149,7 +172,10 @@ if (isset($_POST['realizar_pago'])) {
                             echo '<td>' . $producto['cantidad'] . '</td>';
                             echo '<td><a href="carrito.php?eliminar=1&id=' . $producto['id'] . '" class="btn btn-danger">Eliminar</a></td>';
                             echo '</tr>';
-                        }
+                        }?>
+                        <label for="cupon">Cupón:</label>
+                        <input type="text" id="cupon" name="cupon"><br><br>
+                        <?php
                         echo '</tbody>';
                         echo '</table>';
 
@@ -176,6 +202,7 @@ if (isset($_SESSION['mensaje_alerta'])) {
 }
 ?>
                     <form action="" method="post">
+                    <button type="button" onclick="window.location.href='pagar1.php'" class="btn btn-primary">Elegir método de pago</button>
                         <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
                         <a href="productos.php" class="btn btn-secondary">Volver a la tienda</a>
                     </form>
