@@ -68,77 +68,64 @@ $resultado = $conexion->query($sql);
 
 <body>
     <?php include 'nav.php'; ?>
-    <div class="pt1">
-        <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-        <label for="categoria">Seleccionar Categoría:</label>
-            <select name="categoria" id="categoria">
-                <option value="" <?php echo empty($categoria_seleccionada) ? 'selected' : ''; ?>>Todas las Categorías
-                </option>
-                <?php
-                while ($row_categoria = $resultado_categorias->fetch_assoc()) {
-                    $categoria_actual = $row_categoria['categoria'];
-                    echo "<option value=\"$categoria_actual\" " . ($categoria_actual == $categoria_seleccionada ? 'selected' : '') . ">$categoria_actual</option>";
+    <div class="container">
+        <div class="filters">
+            <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <label for="categoria">Seleccionar Categoría:</label>
+                <select name="categoria" id="categoria">
+                    <option value="" <?php echo empty($categoria_seleccionada) ? 'selected' : ''; ?>>Todas las Categorías</option>
+                    <?php
+                    while ($row_categoria = $resultado_categorias->fetch_assoc()) {
+                        $categoria_actual = $row_categoria['categoria'];
+                        echo "<option value=\"$categoria_actual\" " . ($categoria_actual == $categoria_seleccionada ? 'selected' : '') . ">$categoria_actual</option>";
+                    }
+                    ?>
+                </select>
+                <label for="precio_min">Precio Mínimo:</label>
+                <input type="number" name="precio_min" id="precio_min" value="<?php echo isset($_GET['precio_min']) ? $_GET['precio_min'] : ''; ?>" placeholder="Precio mínimo">
+                <label for="precio_max">Precio Máximo:</label>
+                <input type="number" name="precio_max" id="precio_max" value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
+
+        <div class="loader-wrapper">
+            <div class="loader"></div>
+            <p>Cargando...</p>
+        </div>
+
+        <div class="product-container">
+            <?php
+            if ($resultado->num_rows) {
+                while ($fila = $resultado->fetch_assoc()) {
+                    echo '<div class="product-card">';
+                    echo '<p>' . $fila['idp'] . '<br></p>';
+                    echo '<p>' . $fila['nomp'] . '<br></p>';
+                    echo '<img src="productos/' . htmlspecialchars(basename($fila['imagen'])) . '" height="150px" width="150px"><br>';
+
+                    if (isset($_SESSION["user_cuenta"])) {
+                        echo '<a href="carrito.php?id=' . $fila['idp'] . '&nombre=' . $fila['nomp'] . '&precio=' . $fila['precio'] . '" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
+                    } else {
+                        echo '<button onclick="mostrarAlerta()"><img src="img/carrito.png" height="50px" width="50px"></button>';
+                    }
+
+                    if ($fila['descuento'] > 0) {
+                        $precioOriginal = $fila['precio'];
+                        $descuento = $fila['descuento'];
+                        $precioConDescuento = $precioOriginal - ($precioOriginal * ($descuento / 100));
+                        echo '<p><del>$' . $precioOriginal . '</del> $' . $precioConDescuento . '<br></p>';
+                    } else {
+                        echo '<p>$' . $fila['precio'] . '<br></p>';
+                    }
+
+                    echo '</div>';
                 }
-                ?>
-            </select>
-            <label for="precio_min">Precio Mínimo:</label>
-            <input type="number" name="precio_min" id="precio_min"
-                value="<?php echo isset($_GET['precio_min']) ? $_GET['precio_min'] : ''; ?>" placeholder="Precio mínimo">
-            <label for="precio_max">Precio Máximo:</label>
-            <input type="number" name="precio_max" id="precio_max"
-                value="<?php echo isset($_GET['precio_max']) ? $_GET['precio_max'] : ''; ?>" placeholder="Precio máximo">
-            <button type="submit">Filtrar</button>
-            <!-- ... -->
-        </form>
-    </div>
-
-    <div class="loader-wrapper">
-        <div class="loader"></div>
-        <p>Cargando...</p>
-    </div>
-
-    <?php
-    if ($resultado->num_rows) {
-        echo '<div style="margin-left: 20px;">';
-        echo '<table class="table" style="width:50%;">';
-
-        while ($fila = $resultado->fetch_assoc()) {
-            echo '<td>';
-            echo '<table class="produ">';
-            echo '<tr>' . $fila['idp'] . '<br></tr>';
-            echo '<tr>' . $fila['nomp'] . '<br></tr>';
-            echo '<tr><img src="productos/' . htmlspecialchars(basename($fila['imagen'])) . '" height="150px" width="150px"><br></tr>';
-
-            if (isset($_SESSION["user_cuenta"])) {
-                echo '<a href="carrito.php?id=' . $fila['idp'] . '&nombre=' . $fila['nomp'] . '&precio=' . $fila['precio'] . '" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
             } else {
-                echo '<button onclick="mostrarAlerta()"><img src="img/carrito.png" height="50px" width="50px"></button>';
+                echo "No hay datos";
             }
-
-
-            // Verificar si hay un descuento aplicado
-            if ($fila['descuento'] > 0) {
-                $precioOriginal = $fila['precio'];
-                $descuento = $fila['descuento'];
-                $precioConDescuento = $precioOriginal - ($precioOriginal * ($descuento / 100));
-
-                // Mostrar el precio con descuento y tachar el precio original
-                echo '<tr><del>$' . $precioOriginal . '</del> $' . $precioConDescuento . '<br></tr>';
-            } else {
-                // Si no hay descuento, mostrar solo el precio original
-                echo '<tr>$' . $fila['precio'] . '<br></tr>';
-            }
-
-            // Enlace al carrito
-            echo '</table>';
-            echo '</td>';
-        }
-        echo '</table">';
-        echo '</div>';
-    } else {
-        echo "No hay datos";
-    }
-    ?>
+            ?>
+        </div>
+    </div>
 
     <script>
         function mostrarAlerta() {
