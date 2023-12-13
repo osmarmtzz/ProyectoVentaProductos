@@ -86,6 +86,7 @@ function enviarCorreoRegistro($email, $nombre) {
             <p>¡Gracias por registrarte en DEPORTUAA!</p>
             <p>Te damos la bienvenida a nuestra comunidad.</p>
             <p>Esperamos que disfrutes de nuestra plataforma.</p>
+            <img src='img/cupon1.png'>
             <p>Atentamente,</p>
             <p>Equipo DEPORTUAA</p>
         ";
