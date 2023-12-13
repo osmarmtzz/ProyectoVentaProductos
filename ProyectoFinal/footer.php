@@ -55,9 +55,11 @@
         <p>&copy; 2023 Tu Sitio Web | <a href="#" target="_blank">Privacidad</a> | <a href="#" target="_blank">Términos</a></p>
 
         <div class="social-icons">
-            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://instagram.com/depor.tuaa?igshid=MzNlNGNkZWQ4Mg==" target="_blank"><i class="fab fa-instagram"></i></a>
             <a href="#" target="_blank"><i class="fab fa-facebook-square"></i></a>
         </div>
+        <h1>Esta página web fue creada con fines escolares y no posee ninguna funcionalidad. Se desaconseja cualquier intento de compra, ya que no se ofrece ningún producto o servicio en venta.</h1>
+
 
         <?php
         include 'ultima_modificacion.php';
