@@ -6,6 +6,7 @@ $cuenta = 'root';
 $password = '';
 $bd = 'deportuaa';
 
+// Inicializa $_SESSION['modificar2'] para evitar el error de "Undefined array key"
 $_SESSION['id'] = '';
 $_SESSION['nom'] = '';
 $_SESSION['descrip'] = '';
@@ -15,6 +16,7 @@ $_SESSION['image'] = '';
 $_SESSION['catego'] = '';
 $_SESSION['descuent'] = '';
 $_SESSION['descuent2'] = '';
+$_SESSION['modificar2'] = '';
 
 $conexion = new mysqli($servidor, $cuenta, $password, $bd);
 
@@ -52,7 +54,7 @@ if ($conexion->connect_errno) {
 
         // Lógica para manejar la actualización de la imagen del producto
         $imagenNueva = $_FILES['imagenNueva']['name'];
-        $rutaImagen = 'ruta/donde/guardar/imagenes/' . $imagenNueva; // Establece la ruta de destino de la nueva imagen
+        $rutaImagen = 'productos' . $imagenNueva; // Establece la ruta de destino de la nueva imagen
 
         if (!empty($imagenNueva)) {
             move_uploaded_file($_FILES['imagenNueva']['tmp_name'], $rutaImagen);
