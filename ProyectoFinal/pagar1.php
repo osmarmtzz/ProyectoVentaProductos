@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-if (isset($_POST['nombre'])) {
+// Verificar si se recibieron parámetros en la URL
+if (isset($_POST['numero'])) {
+    $titular = $_POST['titular'];
     $nombre = $_POST['nombre'];
-    $direccion = $_POST['direccion'];
-    $ciudad = $_POST['ciudad'];
-    $codigo_postal = $_POST['codigo_postal'];
-    $pais = $_POST['pais'];
-    $telefono = $_POST['telefono'];
+    $caducidad = $_POST['caducidad'];
+    $cvv = $_POST['cvv'];
 
 }
 ?>
@@ -47,34 +46,24 @@ if (isset($_POST['nombre'])) {
 <body>
     <?php include 'nav.php'; ?>
     <div class="pt1">
-        <div class="texto">
-        <h2>Ingresa los datos para realizar el envío</h2>
-    <form action="carrito.php" method="post">
-        <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
+    <h1>Metodo de Pago</h1>
+    <h2>Ingresa los datos de tu tarjeta de crédito</h2>
+    <form action="" method="post">
+        <label for="titular">Titular de la tarjeta:</label>
+        <input type="text" id="titular" name="titular" required><br><br>
 
-        <label for="direccion">Dirección de envío:</label>
-        <input type="text" id="direccion" name="direccion" required><br><br>
+        <label for="numero">Número de tarjeta:</label>
+        <input type="number" id="numero" name="numero" required><br><br>
 
-        <label for="ciudad">Ciudad:</label>
-        <input type="text" id="ciudad" name="ciudad" required><br><br>
+        <label for="caducidad">Fecha de caducidad (MM/AA):</label>
+        <input type="text" id="caducidad" name="caducidad" required><br><br>
 
-        <label for="codigo_postal">Código postal:</label>
-        <input type="number" id="codigo_postal" name="codigo_postal" required><br><br>
+        <label for="cvv">CVV/CVC:</label>
+        <input type="number" id="cvv" name="cvv" required><br><br>
 
-        <label for="pais">País:</label>
-        <select name="pais" id="pais">
-            <option value="mexico">México</option>
-            <option value="eua">Estados Unidos</option>
-            <option value="canada">Canada</option>
-        </select><br><br>
-        <label for="telefono">Telefono:</label>
-        <input type="number" id="telefono" name="telefono" required><br><br>
-
-        <button type="submit"><a href="carrito.php" class="link-nav">Continuar</a></button>
+        <button type="submit"><a href="pagar2.php" class="link-nav">Continuar</a></button>
     </form>
-            
-        </div>
+
     </div>
     <?php
     include 'footer.php';

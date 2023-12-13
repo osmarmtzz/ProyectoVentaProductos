@@ -103,13 +103,13 @@ if (isset($_POST['realizar_pago'])) {
     }
     $tot = $subtotal + $envio + $impuesto;
     if($cp == "vqfgkm"){
-        $tot2 = $tot * 0.3
+        $tot2 = $tot * 0.3;
         $total = $tot * 0.7; 
     }elseif($cp == "gafgad"){
-        $tot2 = $tot * 0.2
+        $tot2 = $tot * 0.2;
         $total = $tot * 0.8; 
     }elseif($cp == "gjhsfgr"){
-        $tot2 = $tot * 0.15
+        $tot2 = $tot * 0.15;
         $total = $tot * 0.85; 
     }
 
@@ -138,9 +138,10 @@ if (isset($_POST['realizar_pago'])) {
     <title>Carrito</title>
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/carrito.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/carrito.css">
+    <!-- CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+   
 </head>
 
 <body>
@@ -201,7 +202,7 @@ if (isset($_SESSION['mensaje_alerta'])) {
 }
 ?>
                     <form action="" method="post">
-                        <button type="submit"><a href="pagar1.php" class="link-nav">Elegir metodo de pago</a></button>
+                    <button type="button" onclick="window.location.href='pagar1.php'" class="btn btn-primary">Elegir método de pago</button>
                         <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
                         <a href="productos.php" class="btn btn-secondary">Volver a la tienda</a>
                     </form>
