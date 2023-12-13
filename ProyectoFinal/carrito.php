@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (isset($_POST['nombre'])) {
+    $nombre = $_POST['nombre'];
+    $direccion = $_POST['direccion'];
+    $ciudad = $_POST['ciudad'];
+}
+
 if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     $idProducto = $_GET['id'];
     $nombreProducto = $_GET['nombre'];
@@ -88,36 +94,39 @@ if (isset($_POST['realizar_pago'])) {
     }
     $ps = $_POST['pais'];
     $cp = $_POST['cupon'];
-    if($ps == "mexico"){
-        $envio == 0;
+    if ($ps == "mexico") {
+        $envio = 0;
         $impuesto = $subtotal * 0.01;
-    }elseif($ps == "eua"){
-        $envio == 500;
+    } elseif ($ps == "eua") {
+        $envio = 500;
         $impuesto = $subtotal * 0.029;
-    }elseif($ps == "canada"){
-        $envio == 700;
+    } elseif ($ps == "canada") {
+        $envio = 700;
         $impuesto = $subtotal * 0.05;
-    }else{
-        $envio == 0;
-        $impuesto = $subtotal * 0; 
+    } else {
+        $envio = 0;
+        $impuesto = $subtotal * 0;
     }
     $tot = $subtotal + $envio + $impuesto;
-    if($cp == "vqfgkm"){
+    if ($cp == "vqfgkm") {
         $tot2 = $tot * 0.3;
-        $total = $tot * 0.7; 
-    }elseif($cp == "gafgad"){
+        $total = $tot * 0.7;
+    } elseif ($cp == "gafgad") {
         $tot2 = $tot * 0.2;
-        $total = $tot * 0.8; 
-    }elseif($cp == "gjhsfgr"){
+        $total = $tot * 0.8;
+    } elseif ($cp == "gjhsfgr") {
         $tot2 = $tot * 0.15;
-        $total = $tot * 0.85; 
+        $total = $tot * 0.85;
+    } else {
+        $tot2 = $tot * 0;
+        $total = $tot * 1;
     }
-
 
     $_SESSION['ticket'] = array(
         'subtotal' => $subtotal,
         'envio' => $envio,
         'impuesto' => $impuesto,
+        'cupon' => $tot2,
         'total' => $total,
         'productos' => $_SESSION['carrito']
     );
@@ -138,10 +147,92 @@ if (isset($_POST['realizar_pago'])) {
     <title>Carrito</title>
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/nav.css">
-<link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/formularios.css">
     <!-- CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-   
+    <!-- Agregar un estilo CSS para la tabla -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .pt1 {
+            padding-top: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="submit"], .btn-secondary {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover, .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .empty-cart {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        /* Estilos Bootstrap */
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -173,8 +264,13 @@ if (isset($_POST['realizar_pago'])) {
                             echo '<td><a href="carrito.php?eliminar=1&id=' . $producto['id'] . '" class="btn btn-danger">Eliminar</a></td>';
                             echo '</tr>';
                         }?>
-                        <label for="cupon">Cupón:</label>
-                        <input type="text" id="cupon" name="cupon"><br><br>
+                        <tr>
+                            <td colspan="5">
+                                <label for="cupon">Cupón:</label>
+                                <input type="text" id="cupon" name="cupon" class="form-control">
+                                <button type="submit" class="btn btn-primary">Canjear</button>
+                            </td>
+                        </tr>
                         <?php
                         echo '</tbody>';
                         echo '</table>';
@@ -192,17 +288,17 @@ if (isset($_POST['realizar_pago'])) {
                         echo '</tbody>';
                         echo '</table>';
                     } else {
-                        echo '<p>El carrito está vacío.</p>';
+                        echo '<p class="empty-cart">El carrito está vacío.</p>';
                     }
                     ?>
                     <?php
-if (isset($_SESSION['mensaje_alerta'])) {
-    echo '<div class="alert alert-danger" role="alert">' . $_SESSION['mensaje_alerta'] . '</div>';
-    unset($_SESSION['mensaje_alerta']); // Clear the alert message to avoid displaying it on subsequent page loads
-}
-?>
+                    if (isset($_SESSION['mensaje_alerta'])) {
+                        echo '<div class="alert alert-danger" role="alert">' . $_SESSION['mensaje_alerta'] . '</div>';
+                        unset($_SESSION['mensaje_alerta']); // Clear the alert message to avoid displaying it on subsequent page loads
+                    }
+                    ?>
                     <form action="" method="post">
-                    <button type="button" onclick="window.location.href='pagar1.php'" class="btn btn-primary">Elegir método de pago</button>
+                        <button type="submit"  class="btn btn-primary"><a href="pagar1.php"  style="color: #dee2e6;     text-decoration: none;" class="link-nav">Elegir método de pago</a></button>
                         <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
                         <a href="productos.php" class="btn btn-secondary">Volver a la tienda</a>
                     </form>
