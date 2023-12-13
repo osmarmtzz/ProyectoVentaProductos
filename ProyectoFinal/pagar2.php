@@ -42,6 +42,71 @@ if (isset($_POST['nombre'])) {
         th {
             background-color: #f2f2f2;
         }
+        body {
+            background-color: black;
+            color: gold;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .pt1 {
+            margin: 50px;
+        }
+
+        h1, h2 {
+            color: gold;
+        }
+
+        form {
+            background-color: black;
+            padding: 20px;
+            border: 2px solid gold;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        label {
+            color: gold;
+            margin-top: 10px;
+        }
+
+        input {
+            background-color: black;
+            color: gold;
+            border: 1px solid gold;
+            border-radius: 5px;
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: darkgoldenrod;
+        }
+        select#pais {
+            background-color: black;
+            color: gold;
+            border: 1px solid gold;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        select#pais option {
+            background-color: black;
+            color: gold;
+        }
+
     </style>
 </head>
 <body>
