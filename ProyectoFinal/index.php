@@ -136,7 +136,7 @@ session_start();
 <div style= "text-align:center; border: 1px solid #ccc; padding: 20px;">
     <h2></h2>
     <video width="70%" height="400" controls>
-      <source src="video/video1.mp4" type="video/mp4" >
+      <source src="media/video/video1.mp4" type="video/mp4" >
     </video>
 </div>
 
@@ -146,7 +146,7 @@ session_start();
   <div class="card-body" style=background-color:black>
     <h5 class="card-title" style = color:orange>REGISTRATE</h5>
     <p class="card-text" style= color:white>Se el primero en enterarte de nuevas colecciones y ofertas exclusivas.</p>
-    <a href="#" class="btn btn-primary" style="background-color:gray; border-color:orangered">Correo electrónico</a>
+    <a href="login.php" class="btn btn-primary" style="background-color:gray; border-color:orangered">Correo electrónico</a>
   </div>
 </div>
 

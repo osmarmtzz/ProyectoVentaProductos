@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+function generarEnviarCupon($email) {
+    // Generar el cupón de compra (puedes personalizar esto según tus necesidades)
+    $cupon = "DESCUENTO2023"; // Cambia esto por el cupón que desees
+
+    // Enviar el correo electrónico con el cupón
+    $to = $email;
+    $subject = "¡Gracias por suscribirte! Aquí tienes tu cupón de compra";
+    $message = "Hola,\n\nGracias por suscribirte a DEPORTUAA. Tu cupón de compra es: $cupon\n\n¡Disfruta de tus compras!";
+    $headers = "From: deportuaa@gmail.com";
+
+    mail($to, $subject, $message, $headers);
+}
+
 function verificarCredenciales($email, $password) {
     $servername = "localhost";
     $username = "root";
@@ -50,6 +63,9 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
     $stmt->bind_param("sssssi", $nombre, $email, $preguntaSeguridad, $hashedPassword, $cuenta, $id_cargo);
 
     if ($stmt->execute()) {
+        // Generar y enviar el cupón después de registrar la cuenta
+        generarEnviarCupon($email);
+        echo "Registro exitoso. Se ha enviado un cupón de compra a tu correo electrónico.";
     } else {
         echo "Error al registrar. Inténtalo de nuevo.";
     }
@@ -79,21 +95,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-      // Verificar el código captcha
+    // Verificar el código captcha
     $userCaptcha = $_POST["captcha"];
     $captchaCode = isset($_SESSION['captcha_code']) ? $_SESSION['captcha_code'] : '';
 
     if (empty($userCaptcha) || $userCaptcha !== $captchaCode) {
         echo '<script>document.getElementById("captcha-error-message").innerHTML = "Código captcha incorrecto";</script>';
     } else {
-        // Resto de tu código de inicio de sesión
+        //inicio de sesión
         $email = $_POST["email"];
         $password = $_POST["password"];
 
         if (verificarCredenciales($email, $password)) {
             $_SESSION["intentos"] = 0;
             if ($_SESSION["id_cargo"] == 1) {
-                header("Location: index.php"); // Página de inicio administrador con menu actualizado
+                header("Location: index.php"); // Página de inicio administrador con menú actualizado
             } else {
                 header("Location: index.php"); // Página de inicio de cliente
             }
@@ -106,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
                 header("Location: bloqueado.php?email=" . urlencode($email));
                 exit();
             } else {
-                // Código adicional si es necesario
+                
             }
         }
     }
@@ -163,10 +179,9 @@ function obtenerInformacionUsuario($email) {
         .error-container p {
             display: inline-block;
         }
-    .captcha-error {
-        color: red;
-    }
-</style>
+        .captcha-error {
+            color: red;
+        }
 
     </style>
 </head>
