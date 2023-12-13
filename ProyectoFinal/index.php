@@ -152,6 +152,8 @@ session_start();
 
 <button id="cargarProductos" style="margin-top: 20px;">Contenido adicional</button> <!--bton ajax!-->
 
+<img class="pt1" src="img/cupon2.png">
+
 
 <div class="card text-center">
   <div class="card-body" style=background-color:black>
