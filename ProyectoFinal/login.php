@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
     $preguntaSeguridad = $_POST["seguridad"];
     $password_registro = $_POST["password"];
     $confirmPassword = $_POST["confirmPassword"];
+    $recordar = isset($_POST["recordar"]) ? $_POST["recordar"] : false;
     $cuenta = $_POST["cuenta"];
     $id_cargo = $_POST["id_cargo"]; // Nuevo campo para almacenar el rol
 
@@ -108,6 +109,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
             } else {
                 // Código adicional si es necesario
             }
+        }
+    }
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST["registro"])) {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $recordar = isset($_POST["recordar"]) ? $_POST["recordar"] : false;
+
+    if (verificarCredenciales($email, $password)) {
+        $_SESSION["intentos"] = 0;
+
+        if ($recordar) {
+            // Crear cookies para recordar usuario y contraseña
+            setcookie("usuario", $email, time() + (86400 * 30), "/"); // válida por 30 días
+            setcookie("contrasena", $password, time() + (86400 * 30), "/"); // válida por 30 días
+        } else {
+            // Eliminar cookies si no se selecciona "Recordar usuario y contraseña"
+            setcookie("usuario", "", time() - 3600, "/");
+            setcookie("contrasena", "", time() - 3600, "/");
+        }
+
+        if ($_SESSION["id_cargo"] == 1) {
+            header("Location: index.php"); // Página de inicio administrador con menú actualizado
+        } else {
+            header("Location: index.php"); // Página de inicio de cliente
+        }
+        exit();
+    } else {
+        $intentos = isset($_SESSION["intentos"]) ? $_SESSION["intentos"] + 1 : 1;
+        $_SESSION["intentos"] = $intentos;
+
+        if ($intentos >= 3) {
+            header("Location: bloqueado.php?email=" . urlencode($email));
+            exit();
+        } else {
+            // Código adicional si es necesario
         }
     }
 }
@@ -195,7 +232,6 @@ function obtenerInformacionUsuario($email) {
                     <input type="text" name="seguridad" placeholder="Pregunta de Seguridad: Deporte Favorito" required />
                     <input type="password" name="password" id="password" placeholder="Contraseña" required />
                     <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Repetir Contraseña" required />
-                    <label for="id_cargo">Selecciona tu rol:</label>
                         <select id="id_cargo" name="id_cargo">
                             <option value="1">Administrador</option>
                             <option value="2">Cliente</option>
@@ -215,8 +251,10 @@ function obtenerInformacionUsuario($email) {
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>o usa tu cuenta</span>
-                    <input type="email" name="email" placeholder="Email" />
-                    <input type="password" name="password" placeholder="Contraseña" />
+                    <input type="email" name="email" placeholder="Email" value="<?php echo isset($_COOKIE['usuario']) ? $_COOKIE['usuario'] : ''; ?>">
+                    <input type="password" name="password" placeholder="Contraseña" value="<?php echo isset($_COOKIE['contrasena']) ? $_COOKIE['contrasena'] : ''; ?>">
+                    <input type="checkbox" name="recordar" id="recordar" <?php echo isset($_COOKIE['usuario']) ? 'checked' : ''; ?>>
+                    <label for="recordar">Recordar usuario y contraseña</label>
                     <a href="#">Olvidaste tu contraseña?</a>
                     <div class="error-container">
                         <?php
