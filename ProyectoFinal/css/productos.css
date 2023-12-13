@@ -1,14 +1,82 @@
-body{
-    text-align: center;
-    background: #282828;
-}
+/* productos.css */
 
-.pt1{
+* {
+    background-color: black;
+  }
+  
+  label {
+    color: white;
+    padding-bottom: 20px; /* Agrega un padding inferior de 20px para crear espacio */
+  }
+  
+  #categoria,
+  button {
+    background-color: black;
+    color: white;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #categoria:hover,
+  button:hover {
+    background-color: darkorange;
+  }
+  
+  .producto-container {
+    height: 300px;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* margin-top: 40px; // Opcional, aumenta el margen superior en 40px */
+  }
+  
+  .producto-card {
+    min-width: 200px;
+    border: 1px solid orange;
+    color: rgb(248, 248, 248);
+    margin: 10px;
+    padding: 10px;
     text-align: center;
-}
-
-.text{
-    color:#ffa500;
-    text-align: center;
-}
-
+  }
+  
+  .producto-card p {
+    margin: 5px 0;
+  }
+  
+  img.producto-imagen {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  img.producto-imagen:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+  }
+  
+  .loader-wrapper {
+    display: none; /* Ocultar el loader por defecto */
+  }
+  
+  .loader,
+  .loader:after {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: loader 0.8s infinite ease-in-out;
+  }
+  
+  @keyframes loader {
+    0%,
+    100% {
+      box-shadow: 0 5px 0 0 rgb(15, 15, 15);
+    }
+    50% {
+      box-shadow: 0 5px 0 0 transparent;
+    }
+  }
+  
+  
+  
+  
