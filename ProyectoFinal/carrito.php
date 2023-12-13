@@ -83,14 +83,36 @@ if (isset($_GET['eliminar']) && isset($_GET['id'])) {
 
 if (isset($_POST['realizar_pago'])) {
     $subtotal = 0;
-
     foreach ($_SESSION['carrito'] as $producto) {
         $subtotal += $producto['precio'] * $producto['cantidad'];
     }
+    $ps = $_POST['pais'];
+    $cp = $_POST['cupon'];
+    if($ps == "mexico"){
+        $envio == 0;
+        $impuesto = $subtotal * 0.01;
+    }elseif($ps == "eua"){
+        $envio == 500;
+        $impuesto = $subtotal * 0.029;
+    }elseif($ps == "canada"){
+        $envio == 700;
+        $impuesto = $subtotal * 0.05;
+    }else{
+        $envio == 0;
+        $impuesto = $subtotal * 0; 
+    }
+    $tot = $subtotal + $envio + $impuesto;
+    if($cp == "vqfgkm"){
+        $tot2 = $tot * 0.3
+        $total = $tot * 0.7; 
+    }elseif($cp == "gafgad"){
+        $tot2 = $tot * 0.2
+        $total = $tot * 0.8; 
+    }elseif($cp == "gjhsfgr"){
+        $tot2 = $tot * 0.15
+        $total = $tot * 0.85; 
+    }
 
-    $envio = 5.00;
-    $impuesto = $subtotal * 0.1;
-    $total = $subtotal + $envio + $impuesto;
 
     $_SESSION['ticket'] = array(
         'subtotal' => $subtotal,
@@ -168,7 +190,10 @@ if (isset($_POST['realizar_pago'])) {
                             echo '<td>' . $producto['cantidad'] . '</td>';
                             echo '<td><a href="carrito.php?eliminar=1&id=' . $producto['id'] . '" class="btn btn-danger">Eliminar</a></td>';
                             echo '</tr>';
-                        }
+                        }?>
+                        <label for="cupon">Cupón:</label>
+                        <input type="text" id="cupon" name="cupon"><br><br>
+                        <?php
                         echo '</tbody>';
                         echo '</table>';
 
@@ -195,6 +220,7 @@ if (isset($_SESSION['mensaje_alerta'])) {
 }
 ?>
                     <form action="" method="post">
+                        <button type="submit"><a href="pagar1.php" class="link-nav">Elegir metodo de pago</a></button>
                         <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
                         <a href="productos.php" class="btn btn-secondary">Volver a la tienda</a>
                     </form>

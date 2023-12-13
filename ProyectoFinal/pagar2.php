@@ -60,7 +60,7 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     <div class="pt1">
         <div class="texto">
         <h2>Ingresa los datos para realizar el envío</h2>
-    <form action="" method="post">
+    <form action="carrito.php" method="post">
         <label for="nombre">Nombre completo:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
 
@@ -82,7 +82,7 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
         <label for="telefono">Telefono:</label>
         <input type="number" id="telefono" name="telefono" required><br><br>
 
-        <button type="submit"><a href="terminarpago.php" class="link-nav">Continuar</a></button>
+        <button type="submit"><a href="carrito.php" class="link-nav">Continuar</a></button>
     </form>
             
         </div>

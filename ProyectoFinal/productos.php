@@ -23,31 +23,6 @@ $precio_min = isset($_GET['precio_min']) && is_numeric($_GET['precio_min']) ? $_
 $precio_max = isset($_GET['precio_max']) && is_numeric($_GET['precio_max']) ? $_GET['precio_max'] : null;
 
 
-        while ($fila = $resultado -> fetch_assoc()){ //recorremos los registros obtenidos de la tabla
-            echo '<tr>';
-
-
-            echo '<td>';
-                echo '<table class="produ">';
-                    echo '<tr>' . $fila['idp'] . '<br></tr>';
-                    echo '<tr>' . $fila['nomp'] . '<br></tr>';
-                    echo '<tr><img src="productos/'. htmlspecialchars(basename($fila['imagen'])) .'" height="150px" width="150px"><br></tr>';
-                    echo '<tr> $' . $fila['precio'] . '<br></tr>';
-                    echo '<a href="carrito.php?id='. $fila['idp'] .'&nombre='. $fila['nomp'] .'&precio='. $fila['precio'] .'" class="link-nav"><img src="img/carrito.png" height="50px" width="50px"></a>';
-                echo '</table>'; 
-             while($iter != 5){
-                $iter = $iter + 1;
-             }
-             echo '</td>';
-             echo '</tr>';
-             $iter = 0;
-        }   
-        echo '</table">';
-        echo '</div>';
-    }
-    else {
-        echo "no hay datos";
-    }
 // Construir la consulta SQL con los filtros
 $sql = "SELECT * FROM productos";
 
