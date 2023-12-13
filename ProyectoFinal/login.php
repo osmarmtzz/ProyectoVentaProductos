@@ -67,6 +67,7 @@ function registrarCuenta($nombre, $email, $preguntaSeguridad, $password, $cuenta
 
 function enviarCorreoRegistro($email, $nombre) {
     $mail = new PHPMailer(true);
+    $mail->CharSet = 'UTF-8';
 
     try {
         $mail->isSMTP();
