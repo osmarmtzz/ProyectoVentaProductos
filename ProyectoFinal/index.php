@@ -144,12 +144,6 @@ session_start();
     </div>
 </div>
 
-<div style= "text-align:center; border: 1px solid #ccc; padding: 20px;">
-    <h2></h2>
-    <video width="70%" height="400" controls>
-      <source src="video/video1.mp4" type="video/mp4" >
-    </video>
-</div>
 
 <div class="pt1">
   <img src="img/cupon2.png" alt="">

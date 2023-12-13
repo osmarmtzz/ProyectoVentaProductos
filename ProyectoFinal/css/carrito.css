@@ -1,79 +1,55 @@
+/* Agrega estilos generales */
 body {
-    background-color: #f8f9fa;
-    color: #495057;
-}
-
-.pt1 {
-    padding-top: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #333;
+    color: #fff;
 }
 
 .container {
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
+    margin-top: 100px;
 }
 
-h1 {
-    margin-bottom: 20px;
-    color: #007bff;
-}
-
-table {
-    width: 100%;
+.texto {
     margin-top: 20px;
-    border-collapse: collapse;
 }
 
-th, td {
-    border: 1px solid #dee2e6;
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #007bff;
+/* Estilos específicos para la tabla */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
     color: #fff;
 }
 
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+/* Estilos para los botones */
+.btn {
+    margin-right: 5px;
+}
+
+/* Estilos para el formulario */
 form {
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
 }
 
-input[type="submit"], .btn-secondary {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-input[type="submit"]:hover, .btn-secondary:hover {
-    background-color: #0056b3;
-}
-
-.empty-cart {
-    text-align: center;
+/* Estilos para la alerta */
+.alert {
     margin-top: 20px;
-    font-size: 18px;
-    color: #6c757d;
 }
 
-/* Estilos Bootstrap */
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary {
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
+/* footer.css (suponiendo que este es tu archivo de estilos para el pie de página) */
+/* ... (tus estilos actuales) */

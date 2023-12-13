@@ -111,6 +111,32 @@ $resultado = $conexion->query($sql);
         padding: 10px; /* Espaciado interno para los elementos dentro de la sección de filtros */
         margin-bottom: 20px; /* Agrega espacio en la parte inferior */
     }
+    label {
+            color: gold;
+            margin-right: 10px;
+        }
+
+        input[type="number"] {
+            background-color: black;
+            color: gold;
+            border: 1px solid gold;
+            padding: 8px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: gold;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgoldenrod;
+        }
 
     </style>
 </head>

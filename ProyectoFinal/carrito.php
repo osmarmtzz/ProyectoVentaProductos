@@ -1,6 +1,12 @@
 <?php
 session_start();
 
+if (isset($_POST['nombre'])) {
+    $nombre = $_POST['nombre'];
+    $direccion = $_POST['direccion'];
+    $ciudad = $_POST['ciudad'];
+}
+
 if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     $idProducto = $_GET['id'];
     $nombreProducto = $_GET['nombre'];
@@ -118,6 +124,7 @@ if (isset($_POST['realizar_pago'])) {
         'subtotal' => $subtotal,
         'envio' => $envio,
         'impuesto' => $impuesto,
+        'cupon' => $tot2,
         'total' => $total,
         'productos' => $_SESSION['carrito']
     );
@@ -210,15 +217,15 @@ if (isset($_POST['realizar_pago'])) {
                         echo '</tbody>';
                         echo '</table>';
                     } else {
-                        echo '<p>El carrito está vacío.</p>';
+                        echo '<p class="empty-cart">El carrito está vacío.</p>';
                     }
                     ?>
                     <?php
-if (isset($_SESSION['mensaje_alerta'])) {
-    echo '<div class="alert alert-danger" role="alert">' . $_SESSION['mensaje_alerta'] . '</div>';
-    unset($_SESSION['mensaje_alerta']); // Clear the alert message to avoid displaying it on subsequent page loads
-}
-?>
+                    if (isset($_SESSION['mensaje_alerta'])) {
+                        echo '<div class="alert alert-danger" role="alert">' . $_SESSION['mensaje_alerta'] . '</div>';
+                        unset($_SESSION['mensaje_alerta']); // Clear the alert message to avoid displaying it on subsequent page loads
+                    }
+                    ?>
                     <form action="" method="post">
                         <button type="submit"><a href="pagar1.php" class="link-nav">Elegir metodo de pago</a></button>
                         <input type="submit" name="realizar_pago" value="Realizar Pago" class="btn btn-primary">
