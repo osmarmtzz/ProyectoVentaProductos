@@ -33,6 +33,7 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     <link rel="shortcut icon" href="img/Favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/nav.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/formularios.css">
     <!-- CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!-- Agregar un estilo CSS para la tabla -->
@@ -59,7 +60,7 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
     <div class="pt1">
     <h1>Metodo de Pago</h1>
     <h2>Ingresa los datos de tu tarjeta de crédito</h2>
-    <form action="/procesar_pago" method="post">
+    <form action="" method="post">
         <label for="titular">Titular de la tarjeta:</label>
         <input type="text" id="titular" name="titular" required><br><br>
 
@@ -72,11 +73,9 @@ if (isset($_GET['id']) && isset($_GET['nombre']) && isset($_GET['precio'])) {
         <label for="cvv">CVV/CVC:</label>
         <input type="number" id="cvv" name="cvv" required><br><br>
 
-        <input type="submit" value="Enviar">
+        <button type="submit"><a href="pagar2.php" class="link-nav">Continuar</a></button>
     </form>
-        <div class="texto">
-            <button type="submit"><a href="pagar2.php" class="link-nav">Continuar</a></button>
-        </div>
+
     </div>
     <?php
     include 'footer.php';
