@@ -90,6 +90,7 @@ session_start();
   </button>
 </div>
 
+
 <!--NUESTRO PRODUCTOS -->
     <div class="pt2">
         <div class="texto">
@@ -134,6 +135,10 @@ session_start();
     <video width="70%" height="400" controls>
       <source src="video/video1.mp4" type="video/mp4" >
     </video>
+</div>
+
+<div class="pt1">
+  <img src="img/cupon2.png" alt="">
 </div>
 
 
