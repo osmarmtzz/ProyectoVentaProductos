@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+<?php include 'nav.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -110,6 +115,9 @@
           <div>
             <label for="cvv">CVV</label>
             <input id="cvv" type="number">
+          </div>
+          <div>
+            <button>Continuar</button>
           </div>
         </div>
       </form>

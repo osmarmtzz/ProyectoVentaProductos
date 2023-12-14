@@ -21,7 +21,7 @@ body {
   font-family: 'Poppins', sans-serif;
   width: 100vw;
   height: 100vh;
-  background: #fbfcff;
+  background: #383839;
   padding: 24px;
   margin: 0;
   display: flex;
@@ -243,14 +243,15 @@ body {
 
 .form {
   border-radius: 12px;
-  background: #fff;
+  background: #dad8d4;
   max-width: 600px;
   margin: -130px auto 0;
   padding: 180px 32px 32px;
-  border: 1px solid #f1f1f1;
+  border: 5px solid #111010;
   box-shadow: 0 0 40px rgba(50,55,63,.16);
   display: grid;
   gap: 12px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 label {
@@ -295,3 +296,25 @@ select {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #0b0b0b; /* Color de fondo del menú */
+  color: #fff; /* Color del texto del menú */
+  padding: 10px;
+  z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+}
+
+body {
+  margin-top: 60px; /* Ajusta la altura del menú de navegación */
+}
+
+main {
+  margin-top: 80px; /* Ajusta la distancia entre el menú y el contenido principal */
+}
+
+

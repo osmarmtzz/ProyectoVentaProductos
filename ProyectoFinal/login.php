@@ -86,8 +86,19 @@ function enviarCorreoRegistro($email, $nombre) {
             <p>Hola $nombre,</p>
             <p>¡Gracias por registrarte en DEPORTUAA!</p>
             <p>Te damos la bienvenida a nuestra comunidad.</p>
-            <p>Esperamos que disfrutes de nuestra plataforma.</p>
-            <img src='img/cupon1.png'>
+            <p>Disfruta del siguiente codigo de descuento.</p>
+            <span>WkOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOkW
+            Wd.                     ......                 .dW
+            Wd.                   DEPORTUAA                 oW
+            Wd.                     .....                   oW
+            WKx;                                          ;xKW
+            MMMK,              30% DE DESCUENTO          ,0MMM
+            MN0l.                                        .c0NM
+            Wx.                  ..........                .dW
+            Wd.                    vqfgkm                  .dW
+            Wd.                  ..........                .oW
+            Wx..............................................dW
+            WXOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOKW</span>
             <p>Atentamente,</p>
             <p>Equipo DEPORTUAA</p>
         ";
