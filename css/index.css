@@ -1,0 +1,41 @@
+/* styles.css */
+
+/* Personalizar el tamaño de las imágenes en el carrusel */
+.bienvenida{
+    background-color: #282828;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 3px;
+    color: whitesmoke;
+}
+.pt1 {
+    width: 50%; /* Establece el ancho del contenedor al 50% del ancho de la pantalla */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+.texto {
+    flex: 1;
+    padding: 20px;
+}
+
+.carrusel {
+    flex: 1; 
+    padding: 20px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
