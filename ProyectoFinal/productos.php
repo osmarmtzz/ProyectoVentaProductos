@@ -101,13 +101,14 @@ $resultado = $conexion->query($sql);
             margin-right: 10px;
         }
 
-        input[type="number"] {
+        input[type="number"], select {
             background-color: black;
             color: gold;
             border: 1px solid gold;
             padding: 8px;
             border-radius: 5px;
             margin-right: 10px;
+            width: 150px; /* Ajusta el ancho según sea necesario */
         }
 
         button {
