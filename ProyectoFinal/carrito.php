@@ -67,48 +67,6 @@ function calcularPrecioTotal()
     foreach ($_SESSION['carrito'] as $producto) {
         $total += $producto['precio'] * $producto['cantidad'];
     }
-    $ps = $_POST['pais'];
-    $cp = $_POST['cupon'];
-    if ($ps == "mexico") {
-        $envio = 0;
-        $impuesto = $subtotal * 0.01;
-    } elseif ($ps == "eua") {
-        $envio = 500;
-        $impuesto = $subtotal * 0.029;
-    } elseif ($ps == "canada") {
-        $envio = 700;
-        $impuesto = $subtotal * 0.05;
-    } else {
-        $envio = 0;
-        $impuesto = $subtotal * 0;
-    }
-    $tot = $subtotal + $envio + $impuesto;
-    if ($cp == "vqfgkm") {
-        $tot2 = $tot * 0.3;
-        $total = $tot * 0.7;
-    } elseif ($cp == "gafgad") {
-        $tot2 = $tot * 0.2;
-        $total = $tot * 0.8;
-    } elseif ($cp == "gjhsfgr") {
-        $tot2 = $tot * 0.15;
-        $total = $tot * 0.85;
-    } else {
-        $tot2 = $tot * 0;
-        $total = $tot * 1;
-    }
-
-    $_SESSION['ticket'] = array(
-        'subtotal' => $subtotal,
-        'envio' => $envio,
-        'impuesto' => $impuesto,
-        'cupon' => $tot2,
-        'total' => $total,
-        'productos' => $_SESSION['carrito']
-    );
-    session_write_close();
-
-    header("Location: mostrar_ticket.php");
-    exit();
 
     return $total;
 }
@@ -132,49 +90,19 @@ if (isset($_POST['realizar_pago'])) {
     foreach ($_SESSION['carrito'] as $producto) {
         $subtotal += $producto['precio'] * $producto['cantidad'];
     }
-    /*$ps = $_POST['pais'];
-    $cp = $_POST['cupon'];
-    if ($ps == "mexico") {
-        $envio = 0;
-        $impuesto = $subtotal * 0.01;
-    } elseif ($ps == "eua") {
-        $envio = 500;
-        $impuesto = $subtotal * 0.029;
-    } elseif ($ps == "canada") {
-        $envio = 700;
-        $impuesto = $subtotal * 0.05;
-    } else {
-        $envio = 0;
-        $impuesto = $subtotal * 0;
-    }
-    $tot = $subtotal + $envio + $impuesto;
-    if ($cp == "vqfgkm") {
-        $tot2 = $tot * 0.3;
-        $total = $tot * 0.7;
-    } elseif ($cp == "gafgad") {
-        $tot2 = $tot * 0.2;
-        $total = $tot * 0.8;
-    } elseif ($cp == "gjhsfgr") {
-        $tot2 = $tot * 0.15;
-        $total = $tot * 0.85;
-    } else {
-        $tot2 = $tot * 0;
-        $total = $tot * 1;
-    }
-
+    $envio = 0;
+    $impuesto = $subtotal * 0.01;
     $_SESSION['ticket'] = array(
         'subtotal' => $subtotal,
         'envio' => $envio,
         'impuesto' => $impuesto,
-        'cupon' => $tot2,
         'total' => $total,
         'productos' => $_SESSION['carrito']
     );
-
     session_write_close();
 
     header("Location: mostrar_ticket.php");
-    exit();*/
+    exit();
 }
 ?>
 
