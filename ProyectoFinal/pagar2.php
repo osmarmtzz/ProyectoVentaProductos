@@ -136,7 +136,7 @@ if (isset($_POST['nombre'])) {
         <label for="telefono">Telefono:</label>
         <input type="number" id="telefono" name="telefono" required><br><br>
 
-        <button type="submit"><a href="carrito.php" class="link-nav">Continuar</a></button>
+        <button type="submit"><a href="carrito.php?id='pais'" class="link-nav">Continuar</a></button>
     </form>
             
         </div>
