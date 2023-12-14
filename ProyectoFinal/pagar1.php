@@ -1,3 +1,8 @@
+<?php
+session_start();
+?>
+<?php include 'nav.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
